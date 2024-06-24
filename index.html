@@ -1,14 +1,51 @@
 <!DOCTYPE html>
 
-<html>
-  <head>
-    <title> CCTransfer </title>
-  </head>
-
-  <body>
-    <div class="contents">
-      <div class="targetSchools"></div>
-      <div class="optimalPath"></div>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="index.css">
+  <script src="node_modules/sql.js/dist/sql-wasm.js"></script>
+  <title>Dropdown Menu</title>
+</head>
+<body>
+  <h1 class="college-title js-college-title">De Anza College</h1>
+  <button class="js-optimized-courses-btn"> Get Optimized Courses</button>
+  <button class="js-storage-print">Print local storage</button>
+  <button class="js-storage-clear">Clear local storage</button>
+  <div class="popup js-popup">
+    <div class="popup-contents">
+      <div class="dropdown">
+        <div class="popup-title">Choose your college:</div>
+        <div class="dropdown-contents">
+          <button class="btn js-deanza-btn">De Anza College</button>
+          <button class="end-btn">More to come...</button>
+        </div>
+      </div>
     </div>
-  </body>
+  </div>
+
+  <div class="page-contents js-page-contents">
+    <div class="dropdown dropdown-uni">
+      <span class="title">Universities with transfer agreements:</span>
+      <div class="dropdown-contents js-dropdown-uni-contents">
+
+      </div>
+    </div>
+
+    <div class="dropdown dropdown-major">
+      <span class="title">Articulated majors:</span>
+      <div class="dropdown-contents js-dropdown-major-contents">
+
+      </div>
+    </div>
+
+    <div class="finished-list">
+      <span class="title">Added majors:</span>
+      <div class="js-added-majors">
+
+      </div>
+    </div>
+  </div>
+  <script src="index.js"></script>
+</body>
 </html>

@@ -1,0 +1,104 @@
+.college-title {
+  display: none;
+}
+
+.popup {
+  display: flex;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.3);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-contents {
+  display: flex;
+  position: fixed;
+  background-color: white;
+  z-index: 9999;
+  top: 25%;
+  left: 40%;
+  padding: 30px;
+  text-align: center;
+  height: 200px;
+  border-radius: 5px;
+}
+
+.popup-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.college-dropdown {
+  margin-top: 10px;
+  padding: 5px;
+  width: 200px;
+}
+
+.page-contents {
+  display: none;
+  margin-left: 75px;
+  margin-right: 75px;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.btn {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background-color: transparent;
+  padding: 10px 10px 10px 10px;
+  font-size: 14px;
+  display: block;
+}
+
+.btn:hover {
+  background-color: rgba(240, 240, 240);
+}
+
+.end-btn {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background-color: transparent;
+  padding: 10px 10px 10px 10px;
+  font-size: 14px;
+  display: block;
+  color: gray;
+}
+
+.end-btn:hover {
+  background-color: rgba(240, 240, 240);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  align-items: center;
+}
+
+.dropdown-contents {
+  max-width: 350px;
+  margin-top: 15px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  overflow-y: auto;
+}
+
+.dropdown .dropdown-contents {
+  display: block;
+}
+
+.dropdown-contents a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-contents a:hover {
+  background-color: #f1f1f1;
+}
