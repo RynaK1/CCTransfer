@@ -1,16 +1,24 @@
 let db;
 (async function() {
-  try {
-    const SQL = await initSqlJs({
-      locateFile: file => `node_modules/sql.js/dist/${file}`
-    });
-    const fileBuffer = await fetch('databases/articulations.db').then(res => res.arrayBuffer());
-    db = new SQL.Database(new Uint8Array(fileBuffer));
-    console.log('Database loaded successfully');
-  } catch (error) {
-    console.error('Error loading database:', error);
-  }
+  fetch('databases/articulations.json')
+  .then(response => response.json())
+  .then(data => {
+      db = data; // Store the entire JSON data in the db variable
+      db = new Map(Object.entries(db));
+      console.log('Database loaded'); // Log the data to the console for verification
+  })
+  .catch(error => {
+      console.error('Error loading data:');
+  });
 })();
+
+
+//************************************************************************ */
+printBtn = document.querySelector('.js-print-database'); 
+printBtn.addEventListener('click', () => {
+  console.log(db);
+})
+//************************************************************************ */
 
 
 let clickedArtics = JSON.parse(localStorage.getItem('clickedArtics')) || [];
@@ -18,39 +26,30 @@ printAddedMajors(clickedArtics);
 
 const collegeBtn = document.querySelector('.js-deanza-btn');
 collegeBtn.addEventListener('click', () =>  {
+  resultdb = trimDatabaseToCollege('DeAnza');
   uniContents = document.querySelector('.js-dropdown-uni-contents');
-
-  query = `
-    SELECT name
-    FROM sqlite_master
-    WHERE type='table' AND name LIKE 'deanza%';
-  `;
-  result = queryDatabase(query);
-
-  const tableNames = result[0].values.flat();
-  tableNames.forEach((tableName) => {
+  resultdb.forEach((articValue, articKey) => {
     const uniBtn = document.createElement('button');
-    uniBtn.className = `btn js-${tableName}-btn`;
-    uniBtn.textContent = getUniNameFromTable(tableName);
+    uniBtn.className = `btn js-${articKey}-btn`;
+    uniBtn.textContent = getUniNameFromTable(articKey);
     uniBtn.addEventListener('click', () => {
-      query = `SELECT * FROM ${tableName}`;
-      result = queryDatabase(query);
-      
       majorContents = document.querySelector('.js-dropdown-major-contents');
       majorContents.innerHTML = '';
-      result[0].values.forEach(row => {
+
+      let max = articValue.length;
+      for(let i=0; i<max; i++) {
         const majorBtn = document.createElement('button');
         majorBtn.className = 'btn';
-        majorBtn.textContent = row[0];
+        majorBtn.textContent = articValue[i].id;
         majorBtn.addEventListener('click', () => {
-          saveToStorage('clickedArtics', getUniNameFromTable(tableName) + ': ' + row[0]);
-          saveToStorage('clickedArticsBack', `${tableName}-${row[0]}`);
+          saveToStorage('clickedArtics', getUniNameFromTable(articKey) + ': ' + articValue[i].id);
+          saveToStorage('clickedArticsBack', `${articKey}-${articValue[i].id}`);
           let clickedArtics = JSON.parse(localStorage.getItem('clickedArtics')) || [];
           printAddedMajors(clickedArtics);
         })
 
         majorContents.appendChild(majorBtn);
-      });
+      }
     });
     
     uniContents.appendChild(uniBtn);
@@ -58,6 +57,18 @@ collegeBtn.addEventListener('click', () =>  {
 
   postPopupTransition();
 });
+
+
+function trimDatabaseToCollege(college) {
+  let filtereddb = new Map();
+  db.forEach((value, key) => {
+    if(key.includes(college)) {
+      filtereddb.set(key, value);
+    }
+  })
+
+  return filtereddb;
+}
 
 
 function postPopupTransition() {
@@ -70,12 +81,6 @@ function postPopupTransition() {
 
   collegeTitle = document.querySelector('.js-college-title');
   collegeTitle.style.display = "block";
-}
-
-
-function queryDatabase(query) {
-  result = db.exec(query);
-  return result;
 }
 
 
