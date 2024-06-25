@@ -3,23 +3,14 @@ let db;
   fetch('databases/articulations.json')
   .then(response => response.json())
   .then(data => {
-      db = data; // Store the entire JSON data in the db variable
-      db = new Map(Object.entries(db));
+      db = new Map(Object.entries(data)); // Store the entire JSON data in the db variable
+      console.log(typeof db);
       console.log('Database loaded'); // Log the data to the console for verification
   })
   .catch(error => {
       console.error('Error loading data:');
   });
 })();
-
-
-//************************************************************************ */
-printBtn = document.querySelector('.js-print-database'); 
-printBtn.addEventListener('click', () => {
-  console.log(db);
-})
-//************************************************************************ */
-
 
 let clickedArtics = JSON.parse(localStorage.getItem('clickedArtics')) || [];
 printAddedMajors(clickedArtics);
@@ -120,21 +111,16 @@ optimizedCourses = document.querySelector('.js-optimized-courses-btn');
 optimizedCourses.addEventListener('click', () => {
   let clickedArticsBack = JSON.parse(localStorage.getItem('clickedArticsBack')) || [];
   if(clickedArticsBack.length != 0) {
+    let result = [];
     clickedArticsBack.forEach(articBack => {
       const names = articBack.split("-");
-      result = getInfoFromTable(names[0], names[1]);
-      console.log(names[0] + " " + names[1]);
-      //use sql to open table (name[0]) and get row (name[1])
+      result.push(db.get(names[0]).find(major => major.id === names[1]));
     });
+
+    console.log(result);
+    //CALCULATE HERE
   }
 });
-
-
-function getInfoFromTable(tableName, major) {
-  query = `SELECT * FROM ${tableName}`;
-  result = queryDatabase(query);
-  return result;
-}
 
 
 //*************************************************************************
