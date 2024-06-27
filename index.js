@@ -12,42 +12,54 @@ let db;
   });
 })();
 
+
 let clickedArtics = JSON.parse(localStorage.getItem('clickedArtics')) || [];
 printAddedMajors(clickedArtics);
+
 
 const collegeBtn = document.querySelector('.js-deanza-btn');
 collegeBtn.addEventListener('click', () =>  {
   resultdb = trimDatabaseToCollege('DeAnza');
-  uniContents = document.querySelector('.js-dropdown-uni-contents');
-  resultdb.forEach((articValue, articKey) => {
-    const uniBtn = document.createElement('button');
-    uniBtn.className = `btn js-${articKey}-btn`;
-    uniBtn.textContent = getUniNameFromTable(articKey);
-    uniBtn.addEventListener('click', () => {
-      majorContents = document.querySelector('.js-dropdown-major-contents');
-      majorContents.innerHTML = '';
-
-      let max = articValue.length;
-      for(let i=0; i<max; i++) {
-        const majorBtn = document.createElement('button');
-        majorBtn.className = 'btn';
-        majorBtn.textContent = articValue[i].id;
-        majorBtn.addEventListener('click', () => {
-          saveToStorage('clickedArtics', getUniNameFromTable(articKey) + ': ' + articValue[i].id);
-          saveToStorage('clickedArticsBack', `${articKey}-${articValue[i].id}`);
-          let clickedArtics = JSON.parse(localStorage.getItem('clickedArtics')) || [];
-          printAddedMajors(clickedArtics);
-        })
-
-        majorContents.appendChild(majorBtn);
-      }
-    });
-    
-    uniContents.appendChild(uniBtn);
-  });
-
+  createUniList(resultdb);
   postPopupTransition();
 });
+
+
+function createUniList(db) {
+  uniList = document.querySelector('.js-dropdown-uni-list');
+  db.forEach((majorArtics, uniName) => {
+    const uniBtn = document.createElement('button');
+    uniBtn.className = `btn js-${uniName}-btn`;
+    uniBtn.textContent = getUniNameFromTable(uniName);
+    uniList.appendChild(uniBtn);
+    createMajorList(uniBtn, majorArtics, uniName);
+  });
+}
+
+
+function createMajorList(uniBtn, majorArtics, uniName) {
+  majorList = document.querySelector('.js-dropdown-major-list');
+  uniBtn.addEventListener('click', () => {
+    majorList.innerHTML = '';
+    majorArtics.forEach(majorArtic => {
+      const majorBtn = document.createElement('button');
+      majorBtn.className = 'btn';
+      majorBtn.textContent = majorArtic.id;
+      majorList.append(majorBtn);
+      addToAddedMajors(majorBtn, uniName);
+    });
+  });
+}
+
+
+function addToAddedMajors(majorBtn, uniName) {
+  majorBtn.addEventListener('click', () => {
+    saveToStorage('clickedArtics', getUniNameFromTable(uniName) + ': ' + majorBtn.textContent);
+      saveToStorage('clickedArticsBack', `${uniName}-${majorBtn.textContent}`);
+      let clickedArtics = JSON.parse(localStorage.getItem('clickedArtics')) || [];
+      printAddedMajors(clickedArtics);
+  });
+}
 
 
 function trimDatabaseToCollege(college) {
@@ -123,17 +135,13 @@ optimizedCourses.addEventListener('click', () => {
 });
 
 
-//*************************************************************************
-
-storagePrint = document.querySelector('.js-storage-print');
-storagePrint.addEventListener('click', () => {
-  for(let i=0; i< localStorage.length; i++) {
-    const key = localStorage.key(i);
-    console.log(key, localStorage.getItem(key));
-  }
-});
-
 storageClear = document.querySelector('.js-storage-clear');
 storageClear.addEventListener('click', () => {
   localStorage.clear();
+  printAddedMajors([]);
 });
+
+
+function deleteAddedMajor() {
+
+}
