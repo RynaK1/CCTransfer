@@ -4,7 +4,6 @@ let db;
   .then(response => response.json())
   .then(data => {
       db = new Map(Object.entries(data)); // Store the entire JSON data in the db variable
-      console.log(typeof db);
       console.log('Database loaded'); // Log the data to the console for verification
   })
   .catch(error => {
@@ -59,6 +58,11 @@ function addToAddedMajors(majorBtn, uniName) {
       let clickedArtics = JSON.parse(localStorage.getItem('clickedArtics')) || [];
       printAddedMajors(clickedArtics);
   });
+}
+
+
+function deleteAddedMajor() {
+  
 }
 
 
@@ -129,10 +133,114 @@ optimizedCourses.addEventListener('click', () => {
       result.push(db.get(names[0]).find(major => major.id === names[1]));
     });
 
-    console.log(result);
-    //CALCULATE HERE
+    console.log(findOptimalCourseSet(result));
   }
 });
+
+
+function parseCustomArray(str) {
+  str = str.replace(/^"|"$/g, '');
+  try {
+      return JSON.parse(str.replace(/'/g, '"'));
+  } catch (e) {
+      console.error("Error parsing path:", str);
+      return [];
+  }
+}
+
+function parseCustomArray(str) {
+  str = str.replace(/^"|"$/g, '');
+  try {
+    return JSON.parse(str.replace(/'/g, '"'));
+  } catch (e) {
+    console.error("Error parsing path:", str);
+    return [];
+  }
+}
+
+function findOptimalCourseSet(data) {
+  const parsedData = data.map(item => ({
+    ...item,
+    paths: parseCustomArray(item.paths)
+  })).filter(item => item.paths.length > 0);
+
+  if (parsedData.length === 0) {
+    console.error("No valid majors with non-empty paths found");
+    return {
+      optimalPath: [],
+      satisfiedMajors: [],
+      courseOverlapList: [],
+      allMajorsAndNotes: data.map(item => ({ major: item.id, notes: item.notes })),
+      skippedMajors: data.map(item => item.id)
+    };
+  }
+
+  let optimalSet = {
+    courses: new Set(),
+    majors: [],
+    pathCombination: []
+  };
+
+  function backtrack(index, currentSet) {
+    if (index === parsedData.length) {
+      if (currentSet.courses.size < optimalSet.courses.size || optimalSet.courses.size === 0) {
+        optimalSet = JSON.parse(JSON.stringify(currentSet));
+        optimalSet.courses = new Set(currentSet.courses);
+      }
+      return;
+    }
+
+    const major = parsedData[index];
+    for (const path of major.paths) {
+      const newCourses = new Set(currentSet.courses);
+      path.forEach(course => newCourses.add(course));
+
+      if (newCourses.size < optimalSet.courses.size || optimalSet.courses.size === 0) {
+        const newSet = {
+          courses: newCourses,
+          majors: [...currentSet.majors, major.id],
+          pathCombination: [...currentSet.pathCombination, { major: major.id, path }]
+        };
+        backtrack(index + 1, newSet);
+      }
+    }
+  }
+
+  backtrack(0, { courses: new Set(), majors: [], pathCombination: [] });
+
+  // Count course requirements for the optimal path
+  const courseRequirements = {};
+  optimalSet.pathCombination.forEach(({ major, path }) => {
+    path.forEach(course => {
+      if (!courseRequirements[course]) {
+        courseRequirements[course] = { count: 0, majors: [] };
+      }
+      courseRequirements[course].count++;
+      if (!courseRequirements[course].majors.includes(major)) {
+        courseRequirements[course].majors.push(major);
+      }
+    });
+  });
+
+  const courseOverlapList = Object.entries(courseRequirements).map(([course, data]) => ({
+    course,
+    requiredByCount: data.count,
+    majors: data.majors
+  }));
+
+  const allMajorsAndNotes = data.map(item => ({
+    major: item.id,
+    notes: item.notes
+  }));
+
+  return {
+    optimalPath: Array.from(optimalSet.courses),
+    satisfiedMajors: optimalSet.majors,
+    courseOverlapList,
+    allMajorsAndNotes,
+    skippedMajors: data.filter(item => parseCustomArray(item.paths).length === 0).map(item => item.id)
+  };
+}
 
 
 storageClear = document.querySelector('.js-storage-clear');
@@ -140,8 +248,3 @@ storageClear.addEventListener('click', () => {
   localStorage.clear();
   printAddedMajors([]);
 });
-
-
-function deleteAddedMajor() {
-
-}
