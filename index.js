@@ -53,15 +53,23 @@ function createMajorList(uniBtn, majorArtics, uniName) {
 
 function addToAddedMajors(majorBtn, uniName) {
   majorBtn.addEventListener('click', () => {
-    saveToStorage('clickedArtics', getUniNameFromTable(uniName) + ': ' + majorBtn.textContent);
+    let clickedArtics = JSON.parse(localStorage.getItem('clickedArtics')) || [];
+    uniAndMajor = getUniNameFromTable(uniName) + ': ' + majorBtn.textContent;
+    if(clickedArtics.length < 15 || clickedArtics.includes(uniAndMajor)) {
+      saveToStorage('clickedArtics', uniAndMajor);
       saveToStorage('clickedArticsBack', `${uniName}-${majorBtn.textContent}`);
-      let clickedArtics = JSON.parse(localStorage.getItem('clickedArtics')) || [];
+      clickedArtics = JSON.parse(localStorage.getItem('clickedArtics')) || [];
       printAddedMajors(clickedArtics);
+    }
+    else {
+      console.log('Maximum number of majors met')
+    }
   });
+  deleteAddedMajorBtn();
 }
 
 
-function deleteAddedMajor() {
+function deleteAddedMajorBtn() {
   
 }
 
@@ -137,16 +145,6 @@ optimizedCourses.addEventListener('click', () => {
   }
 });
 
-
-function parseCustomArray(str) {
-  str = str.replace(/^"|"$/g, '');
-  try {
-      return JSON.parse(str.replace(/'/g, '"'));
-  } catch (e) {
-      console.error("Error parsing path:", str);
-      return [];
-  }
-}
 
 function parseCustomArray(str) {
   str = str.replace(/^"|"$/g, '');

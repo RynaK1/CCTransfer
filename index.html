@@ -4,18 +4,19 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   <title>Dropdown Menu</title>
 </head>
 <body>
   <h1 class="college-title js-college-title">De Anza College</h1>
-  <button class="js-optimized-courses-btn"> Get Optimized Courses</button>
-  <button class="js-storage-clear">Clear local storage</button>
 
   <div class="popup js-popup">
     <div class="popup-contents">
       <div class="dropdown">
-        <div class="popup-title">Choose your college:</div>
-        <div class="dropdown-contents">
+        <div class="title">Choose your college:</div>
+        <div class="dropdown-contents dropdown-college">
           <button class="btn js-deanza-btn">De Anza College</button>
           <button class="end-btn">More to come...</button>
         </div>
@@ -23,6 +24,8 @@
     </div>
   </div>
 
+  <button class="js-optimized-courses-btn"> Get Optimized Courses</button>
+  <button class="js-storage-clear">Clear local storage</button>
   <div class="page-contents js-page-contents">
     <div class="dropdown dropdown-uni">
       <span class="title">Universities with transfer agreements:</span>
@@ -33,12 +36,12 @@
 
     <div class="dropdown dropdown-major">
       <span class="title">Articulated majors:</span>
-      <div class="dropdown-contents js-dropdown-major-list">
+      <div class="dropdown-contents dropdown-majors js-dropdown-major-list">
 
       </div>
     </div>
 
-    <div class="finished-list">
+    <div class="added-majors-list">
       <span class="title">Added majors:</span>
       <div class="js-added-majors">
 
