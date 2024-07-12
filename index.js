@@ -13,7 +13,8 @@ let db;
 
 
 let clickedArtics = JSON.parse(localStorage.getItem('clickedArtics')) || [];
-printAddedMajors(clickedArtics);
+let clickedArticsBack = JSON.parse(localStorage.getItem('clickedArticsBack')) || [];
+printAddedMajors(clickedArtics, clickedArticsBack);
 
 
 const collegeBtn = document.querySelector('.js-deanza-btn');
@@ -55,22 +56,43 @@ function addToAddedMajors(majorBtn, uniName) {
   majorBtn.addEventListener('click', () => {
     let clickedArtics = JSON.parse(localStorage.getItem('clickedArtics')) || [];
     uniAndMajor = getUniNameFromTable(uniName) + ': ' + majorBtn.textContent;
-    if(clickedArtics.length < 15 || clickedArtics.includes(uniAndMajor)) {
+    if(clickedArtics.includes(uniAndMajor)) {
+      console.log("Major already added");
+    }
+    else if(clickedArtics.length >= 15) {
+      console.log("Maximum length met");
+    }
+    else {
       saveToStorage('clickedArtics', uniAndMajor);
       saveToStorage('clickedArticsBack', `${uniName}-${majorBtn.textContent}`);
       clickedArtics = JSON.parse(localStorage.getItem('clickedArtics')) || [];
-      printAddedMajors(clickedArtics);
-    }
-    else {
-      console.log('Maximum number of majors met')
+      createDeleteMajorBtn(uniAndMajor, `${uniName}-${majorBtn.textContent}`);
     }
   });
-  deleteAddedMajorBtn();
 }
 
 
-function deleteAddedMajorBtn() {
-  
+function createDeleteMajorBtn(uniAndMajor, className) {
+  addedMajorsList = document.querySelector('.js-added-majors');
+  const addedMajorBtn = document.createElement('button');
+  addedMajorBtn.className = `del-btn ${className}`;
+  addedMajorBtn.textContent = uniAndMajor;
+  addedMajorBtn.addEventListener('click', function() {
+    delFromStorage('clickedArtics', uniAndMajor);
+    delFromStorage('clickedArticsBack', className);
+    this.remove();
+  });
+
+  addedMajorsList.append(addedMajorBtn);
+}
+
+
+function printAddedMajors(clickedArtics, clickedArticsBack) {
+  clickedArtics.forEach((artic, index) => {
+    const articBack = clickedArticsBack[index];
+    console.log(artic);
+    createDeleteMajorBtn(getUniNameFromTable(artic), articBack);
+  });
 }
 
 
@@ -109,25 +131,30 @@ function getUniNameFromTable(tableName) {
 
 
 function saveToStorage(key, word) {
-  let clickedArtics = JSON.parse(localStorage.getItem(key)) || [];
-  if (clickedArtics.includes(word)) {
-    clickedArtics = clickedArtics.filter((artic) => {
-      return artic !== word;
+  let arr = JSON.parse(localStorage.getItem(key)) || [];
+  if (arr.includes(word)) {
+    arr = arr.filter(elem => {
+      return elem !== word;
     });
   } else {
-    clickedArtics.push(word);
+    arr.push(word);
   }
-  localStorage.setItem(key, JSON.stringify(clickedArtics));
+  localStorage.setItem(key, JSON.stringify(arr));
 }
 
 
-function printAddedMajors(majors) {
-  addedMajors = document.querySelector('.js-added-majors');
-  html = '';
-  majors.forEach(major => {
-    html += `<div>${major}</div>`;
-  });
-  addedMajors.innerHTML = html;
+function delFromStorage(key, elem) {
+  let arr = JSON.parse(localStorage.getItem(key)) || '[]';
+  const index = arr.indexOf(elem);
+
+  if (index > -1) {
+      arr.splice(index, 1);
+      localStorage.setItem(key, JSON.stringify(arr));
+      console.log(`Deleted ${elem} from ${key}`);
+  } 
+  else {
+      console.log(`${elem} not found in ${key}`);
+  }
 }
 
 
@@ -205,7 +232,6 @@ function findOptimalCourseSet(data) {
   }
 
   backtrack(0, { courses: new Set(), majors: [], pathCombination: [] });
-
   // Count course requirements for the optimal path
   const courseRequirements = {};
   optimalSet.pathCombination.forEach(({ major, path }) => {
@@ -239,10 +265,3 @@ function findOptimalCourseSet(data) {
     skippedMajors: data.filter(item => parseCustomArray(item.paths).length === 0).map(item => item.id)
   };
 }
-
-
-storageClear = document.querySelector('.js-storage-clear');
-storageClear.addEventListener('click', () => {
-  localStorage.clear();
-  printAddedMajors([]);
-});

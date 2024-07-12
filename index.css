@@ -72,6 +72,21 @@ body {
   background-color: rgb(241, 206, 144);
 }
 
+.del-btn {
+  color: rgb(100, 100, 100);
+  width: 100%;
+  text-align: left;
+  border: none;
+  background-color: transparent;
+  padding: 10px 10px 10px 10px;
+  font-size: 14px;
+  display: block;
+}
+
+.del-btn:hover {
+  background-color: rgb(255, 94, 0);
+}
+
 .end-btn {
   width: 100%;
   text-align: left;
@@ -116,4 +131,8 @@ body {
 
 .dropdown-majors {
   height: 500px;
+}
+
+.added-majors-content {
+  margin-top: 15px;
 }
