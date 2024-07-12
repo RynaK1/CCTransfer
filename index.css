@@ -12,25 +12,14 @@ body {
   color: rgb(100, 100, 100);
 }
 
-.popup {
-  display: flex;
-  position: fixed;
-  background-color: rgb(255, 250, 242);
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  justify-content: center;
-  align-items: center;
-}
-
 .popup-contents {
   display: flex;
   position: fixed;
   background-color: rgb(255, 203, 112);
   z-index: 9999;
-  top: 25%;
-  left: 40%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 30px;
   text-align: center;
   height: 200px;
