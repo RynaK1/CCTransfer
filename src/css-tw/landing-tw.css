@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Roboto;
+}
+
+.landing-page {
+  display: block;
+  position: absolute;
+  background-color: rgb(255, 250, 242);
+  top: 75px;
+  height: 100vh;
+  width: 100vw;
+}
+
+.logo {
+  margin-left: 30px;
+  font-size: 40px;
+  font-weight: 700;
+  color: white;
+}
+
+.topbar {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  gap: 40px;
+  top: 0;
+  left: 0;
+  height: 75px;
+  width: 100%;
+  background: linear-gradient(to right, rgb(255, 136, 0) 0%, rgb(255, 136, 0) 30%, rgb(255, 250, 242) 100%);
+  z-index: 1000;
+}
+
+.slogan {
+  color: white;
+  font-size: 32px;
+  font-weight: 300;
+}
+
+.title {
+  color: rgb(120, 120, 120);
+  display: block;
+}
+
+.statement {
+  color: rgb(120, 120, 120);
+  display: block;
+  line-height: 1.35;
+  font-size: 18px;
+}
+
+.popup {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px;
+  text-align: center;
+  height: 200px;
+}
+
+.dropdown-box {
+  margin-top: 20px;
+  margin-bottom: 80px;
+  position: relative;
+  display: inline-block;
+  border: 5px solid #D17101;
+  background-color: #E6B072;
+  padding: 15px;
+  border-radius: 7px;
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+}
+
+.dropdown-content {
+  display: block;
+  position: absolute;
+  background-color: white;
+  top: 67px;
+  width: 360px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  border-radius: 0 0 4px 4px;
+}
+
+.search {
+  display: flex;
+  justify-content: space-between;
+  color: gray;
+  background-color: white;
+  padding: 16px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 18px solid #000;
+  transition: transform 0.3s ease;
+}
+
+.search:hover {
+  background-color: rgb(241, 206, 144);
+}
+
+.dropdown:hover .triangle {
+  transform: rotate(180deg);
+}
+
+.dropdown:hover .search {
+  border-radius: 5px 5px 0 0;
+}
+
+.dropdown:hover .dropdown-content {
+  max-height: 300px;
+}
+
+.dropdown:hover .dropdown-content button {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease-in, transform 0.4s ease-in;
+}
+
+.end-btn {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background-color: transparent;
+  padding: 10px 10px 10px 10px;
+  font-size: 14px;
+  display: block;
+  color: gray;
+}
+
+.end-btn:hover {
+  background-color: rgba(240, 240, 240);
+}

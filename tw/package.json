@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "sql.js": "^1.10.3",
+    "sqlite3": "^5.1.7"
+  },
+  "name": "python",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tailwindcss -i ./../src/css-tw/landing-tw.css -o ./../public/css/landing.css && tailwindcss -i ./../src/css-tw/result-tw.css -o ./../public/css/result.css && tailwindcss -i ./../src/css-tw/search-tw.css -o ./../public/css/search.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.6"
+  },
+  "description": ""
+}
