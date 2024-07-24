@@ -1,6 +1,6 @@
 let db;
 (async function() {
-  fetch('databases/articulations.json')
+  fetch('backend/databases/articulations.json')
   .then(response => response.json())
   .then(data => {
       db = new Map(Object.entries(data)); // Store the entire JSON data in the db variable
@@ -21,12 +21,12 @@ const collegeBtn = document.querySelector('.js-deanza-btn');
 collegeBtn.addEventListener('click', () =>  {
   resultdb = trimDatabaseToCollege('DeAnza');
   createUniList(resultdb);
-  postPopupTransition();
+  transitionPage('js-search-page');
 });
 
 
 function createUniList(db) {
-  uniList = document.querySelector('.js-dropdown-uni-list');
+  let uniList = document.querySelector('.js-dropdown-uni-list');
   db.forEach((majorArtics, uniName) => {
     const uniBtn = document.createElement('button');
     uniBtn.className = `btn js-${uniName}-btn`;
@@ -34,12 +34,18 @@ function createUniList(db) {
     uniList.appendChild(uniBtn);
     createMajorList(uniBtn, majorArtics, uniName);
   });
+  let endBtn = document.createElement('button');
+  endBtn.className = 'end-btn end-btn-r';
+  endBtn.textContent = 'More to come...';
+  uniList.appendChild(endBtn);
 }
 
 
 function createMajorList(uniBtn, majorArtics, uniName) {
   majorList = document.querySelector('.js-dropdown-major-list');
   uniBtn.addEventListener('click', () => {
+    let titleMajors = document.querySelector('.js-title-majors');
+    titleMajors.innerHTML = `Articulated majors: ${getUniNameFromTable(uniName)}`;
     majorList.innerHTML = '';
     majorArtics.forEach(majorArtic => {
       const majorBtn = document.createElement('button');
@@ -90,7 +96,6 @@ function createDeleteMajorBtn(uniAndMajor, className) {
 function printAddedMajors(clickedArtics, clickedArticsBack) {
   clickedArtics.forEach((artic, index) => {
     const articBack = clickedArticsBack[index];
-    console.log(artic);
     createDeleteMajorBtn(getUniNameFromTable(artic), articBack);
   });
 }
@@ -105,19 +110,6 @@ function trimDatabaseToCollege(college) {
   })
 
   return filtereddb;
-}
-
-
-function postPopupTransition() {
-  pageContents = document.querySelector('.js-page-contents');
-  pageContents.style.display = "grid";
-  
-  popup = document.querySelector('.js-popup');
-  popup.style.backgroundColor = "rgba(0, 0, 0, 0)";
-  popup.style.display = "none";
-
-  collegeTitle = document.querySelector('.js-college-title');
-  collegeTitle.style.display = "block";
 }
 
 
@@ -167,7 +159,7 @@ optimizedCourses.addEventListener('click', () => {
       const names = articBack.split("-");
       result.push(db.get(names[0]).find(major => major.id === names[1]));
     });
-
+    transitionPage('js-result-page');
     console.log(findOptimalCourseSet(result));
   }
 });
