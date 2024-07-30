@@ -3,11 +3,11 @@
     "sql.js": "^1.10.3",
     "sqlite3": "^5.1.7"
   },
-  "name": "python",
+  "name": "cctransfer",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "tailwindcss -i ./../src/css-tw/landing-tw.css -o ./../public/css/landing.css && tailwindcss -i ./../src/css-tw/result-tw.css -o ./../public/css/result.css && tailwindcss -i ./../src/css-tw/search-tw.css -o ./../public/css/search.css --watch"
+    "build": "tailwindcss -i ./../src/css-tw/style-tw.css -o ./../public/css/style.css --watch"
   },
   "keywords": [],
   "author": "",

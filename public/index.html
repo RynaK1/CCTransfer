@@ -1,78 +1,68 @@
-<!DOCTYPE html>
+<!DOCTYPE html min-h-screen min-w-screen>
 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="./css/landing.css">
-  <link rel="stylesheet" href="./css/search.css">
-  <link rel="stylesheet" href="./css/result.css">
+  <link rel="stylesheet" href="./css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-  <title>Dropdown Menu</title>
+  <title>CCTransfer</title>
 </head>
-<body>
-  <div class="topbar">
-    <div class="logo">LOGO</div>
-    <div class="slogan">Your Future, Your Path, Our Guidance</div>
+<body min-h-screen min-w-screen>
+  <div class="flex fixed items-center gap-10 h-[75px] bg-gradient-to-r from-orange-500 via-orange-300 to-orange-100 inset-x-0 z-50">
+    <div class="text-white text-3xl font-bold ml-10">LOGO</div>
+    <div class="text-white text-2xl">Your Future, Your Path, Our Guidance</div>
   </div>
-  <h1 class="college-title js-college-title">De Anza College</h1>
 
-  <div class="landing-page js-landing-page">
-    <div class="popup js-popup">
-      <div class="title">Please select the institution you will be transferring from</div>
-      <div class="dropdown-box">
-        <div class="dropdown">
-          <div class="search">
+  <div class="page" id="js-landing-page">
+    <div class="flex flex-col fixed justify-center items-center z-40 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-[30px]" id="js-popup">
+      <div class="text-[rgb(120,120,120)] leading-6 text-lg text-center mb-12">We are committed to facilitating a seamless transfer process for college students, recognizing that each individual's academic journey is unique. Our mission is to help create a clear path for students to achieve their educational aspirations, reducing the confusion associated with course selection. By streamlining this transition, we empower transferring students to focus on their academic growth, offering them not just assistance, but peace of mind.</div>
+      <div class="text-[rgb(140,140,140)] mb-5">Please select the institution you will be transferring from:</div>
+      <div class="relative border-solid border-[5px] border-[#D17101] bg-[#E6B072] p-[15px] rounded-[7px]">
+        <div class="group dropdown">
+          <div class=" flex justify-between items-center text-gray-500 bg-white p-[16px] text-xl rounded-[5px] hover:bg-[rgb(241,206,144)] shadow-md">
             Select school...
-            <div class="triangle"></div>
+            <div class="h-0 w-0 border-solid border-black border-b-[18px] border-x-[10px] border-x-transparent duration-300 group-hover:rotate-180"></div>
           </div>
-          <div class="dropdown-content">
-            <button class="btn js-deanza-btn">DeAnza College</a>
-            <button class="end-btn">More to come...</a>
+          <div class="content group-hover:max-h-[300px] top-[58px]">
+            <button class="btn" id="js-deanza-btn">DeAnza College</button>
+            <button class="w-full text-left border-none bg-transparent p-[10px] text-base text-gray-400 hover:bg-gray-100">More to come...</button>
           </div>
         </div>
-      </div>
-      <div class="statement">We are committed to facilitating a seamless transfer process for college students, recognizing that each individual's academic journey is unique. Our mission is aid in creating a clear path for students to achieve their educational aspirations, reducing the confusion associated with course selection. By streamlining this transition, we empower transferring students to focus on their academic growth, offering them not just assistance, but peace of mind.
       </div>
     </div>
   </div>
 
-  <div class="search-page js-search-page">
-    <div class="page-contents js-page-contents">
-      <div class="dropdown-r">
-        <span class="title-r">Universities with transfer agreements:</span>
-        <div class="dropdown-content-r js-dropdown-uni-list">
-
-        </div>
+  <div class="hidden page" id="js-school-page">
+    <div class="flex flex-col justify-center items-center">
+      <div class="flex w-full justify-center items-center gap-[10px] mt-[30px]">
+        <div class="w-[35px] h-[35px] rounded-full border-[2px] border-gray-500 text-gray-500 flex items-center justify-center text-xl font-normal">1</div>
+        <div class="h-[2px] bg-gray-500 w-[100px]"></div>
+        <div class="w-[35px] h-[35px] rounded-full border-[2px] border-gray-500 text-gray-500 flex items-center justify-center text-xl font-normal">2</div>
+        <div class="h-[2px] bg-gray-500 w-[100px]"></div>
+        <div class="w-[35px] h-[35px] rounded-full border-[2px] border-gray-500 text-gray-500 flex items-center justify-center text-xl font-normal">3</div>
       </div>
-
-      <div class="arrowhead"></div>
-
-      <div class="dropdown-r">
-        <span class="title-r js-title-majors">Articulated majors:</span>
-        <div class="dropdown-content-r js-dropdown-major-list">
-
-        </div>
+      <div class="flex w-full justify-center items-center mt-[10px] mr-[40px]">
+        <div class="text-gray-500">Select Universities</div>
+        <div class="text-gray-500 ml-[45px]">Select majors</div>
+        <div class="text-gray-500 ml-[80px]">Results</div>
       </div>
+      <img src="./images/education.svg" class="w-[300px] mt-[60px]">
+      
+      <div class="group dropdown mt-[60px]">
+        <div class="rounded-[3px] w-[360px] px-[20px] py-[8px] bg-white text-lg text-gray-400 hover:bg-gray-50 shadow-md text-left" id="searchbar-school">Select universities</div>   
+        <div class="content top-[43px] group-hover:max-h-[200px] overflow-y-auto" id="dropdown-school">
 
-      <div class="arrowhead"></div>
-
-      <div class="dropdown-a">
-        <span class="title-r">Added majors:</span>
-        <div class="dropdown-content-a js-added-majors">
-        
         </div>
-        <button class="optimized-courses-btn js-optimized-courses-btn"> Get Optimized Courses</button>
       </div>
     </div>
   </div>
 
-  <div class="result-page js-result-page">
+  <div class="hidden page" id="js-result-page">
     <div>RESULT PAGE</div>
   </div>
-  <script src="../src/js/landing.js"></script>
-  <script src="../src/js/search.js"></script>
-  <script src="../src/js/result.js"></script>
+  <script src="../src/js/database.js"></script>
+  <script src="../src/js/index.js"></script>
 </body>
 </html>

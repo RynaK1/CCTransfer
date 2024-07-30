@@ -2,25 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-.search-page {
-  display: none;
-  position: absolute;
-  background-color: rgb(255, 250, 242);
-  top: 75px;
-  height: 100vh;
-  width: 100vw;
+body {
+  font-family: Roboto;
 }
 
-.page-contents {
-  display: flex;
-  justify-content: space-between;
-  grid-template-columns: 5fr 1fr 5fr 1fr 5fr;
-  margin-left: 75px;
-  margin-right: 75px;
+.page {
+  @apply absolute top-[75px] inset-0 bg-orange-100
 }
 
-.btn {
-  color: rgb(100, 100, 100);
+.dropdown {
+  @apply relative flex flex-col w-[360px] justify-center
+}
+
+.dropdown .content {
+  @apply absolute bg-white w-[360px] max-h-0 overflow-y-auto duration-300 rounded-bl-[4px] rounded-br-[4px] shadow-md
+}
+
+.dropdown .content .btn {
+  @apply text-[rgb(100,100,100)] text-left w-full border-none bg-transparent p-[10px] text-base hover:bg-[rgb(231,197,139)]
+}
+
+.btn-toggled {
+  @apply !bg-[rgb(223,194,144)]
+}
+
+.end-btn {
   width: 100%;
   text-align: left;
   border: none;
@@ -28,6 +34,11 @@
   padding: 10px 10px 10px 10px;
   font-size: 14px;
   display: block;
+  color: gray;
+}
+
+.end-btn:hover {
+  background-color: rgba(240, 240, 240);
 }
 
 .btn:hover {
