@@ -11,19 +11,31 @@ body {
 }
 
 .dropdown {
-  @apply relative flex flex-col w-[360px] justify-center
+  @apply relative flex flex-col w-[360px] justify-center items-center
 }
 
 .dropdown .content {
-  @apply absolute bg-white w-[360px] max-h-0 overflow-y-auto duration-300 rounded-bl-[4px] rounded-br-[4px] shadow-md
+  @apply absolute bg-white max-h-0 overflow-y-auto duration-500 rounded-bl-[4px] rounded-br-[4px] shadow-md
 }
 
 .dropdown .content .btn {
-  @apply text-[rgb(100,100,100)] text-left w-full border-none bg-transparent p-[10px] text-base hover:bg-[rgb(231,197,139)]
+  @apply text-gray-600 text-left w-full border-none bg-transparent p-[10px] text-base hover:bg-[rgb(241,206,144)]
 }
 
 .btn-toggled {
-  @apply !bg-[rgb(223,194,144)]
+  @apply !bg-[rgb(226,193,136)] !text-gray-700
+}
+
+.added-uni {
+  @apply text-lg text-gray-600 px-[15px]
+}
+
+.circle-label {
+  @apply w-[35px] h-[35px] rounded-full border-[2px] border-gray-600 text-gray-600 flex items-center justify-center text-xl font-medium
+}
+
+.line {
+  @apply h-[2px] bg-gray-600 w-[100px]
 }
 
 .end-btn {
