@@ -20,21 +20,14 @@
       <div class="text-[rgb(100,100,100)] leading-7 text-xl text-center mb-[80px]">We are committed to facilitating a seamless transfer process for college students, recognizing that each individual's academic journey is unique. Our mission is to help create a clear path for students to achieve their educational aspirations, reducing the confusion associated with course selection. By streamlining this transition, we empower transferring students to focus on their academic growth, offering them not just assistance, but peace of mind.</div>
       <div class="text-[rgb(120,120,120)] mb-5 text-lg">Please select the institution you will be transferring from:</div>
       <div class="relative border-solid border-[5px] border-[#D17101] bg-[#E6B072] p-[15px] rounded-[7px]">
-        <div class="group dropdown">
-          <div class=" flex justify-between items-center w-[360px] text-[rgb(100,100,100)] bg-white p-[16px] text-xl rounded-[5px] hover:bg-[rgb(241,206,144)] shadow-md">
-            Select school...
-            <div class="h-0 w-0 border-solid border-black border-b-[18px] border-x-[10px] border-x-transparent duration-500 group-hover:rotate-180"></div>
-          </div>
-          <div class="content group-hover:max-h-[300px] w-[360px] top-[55px]">
-            <button class="btn" id="js-deanza-btn">DeAnza College</button>
-            <button class="w-full text-left border-none bg-transparent p-[10px] text-base text-gray-400 hover:bg-gray-100">More to come...</button>
-          </div>
+        <div class="dropdown group" id="js-college-dropdown">
+
         </div>
       </div>
     </div>
   </div>
 
-  <div class="hidden page" id="js-school-page">
+  <div class="hidden page" id="js-step-one-page">
     <div class="flex flex-col justify-center items-center">
       <div class="flex w-full justify-center items-center gap-[10px] mt-[30px]">
         <div class="circle-label bg-orange-400">1</div>
@@ -48,24 +41,54 @@
         <div class="text-gray-600 ml-[28px] text-lg">Select majors</div>
         <div class="text-gray-600 ml-[71px] text-lg">Results</div>
       </div>
-      <img src="./images/education.svg" class="w-[300px] mt-[50px]">
-      <div class="group dropdown mt-[50px]">
-        <div class="rounded-[3px] w-[275px] px-[20px] py-[8px] bg-white text-xl text-gray-600 group-hover:bg-[rgb(241,206,144)] shadow-md text-center">Select universities</div>   
-        <div class="content w-[275px] top-[43px] group-hover:max-h-[210px] overflow-y-auto" id="js-dropdown-school">
+      <img src="./images/education.svg" class="w-[260px] mt-[50px]">
+      <div class="group dropdown mt-[50px]" id="js-uni-dropdown">
 
-        </div>
       </div>
     </div>
-    <div class="flex flex-col absolute top-[19vh] left-[25vh] bg-white rounded-[5px] w-[275px] h-0 transition-[height] overflow-hidden duration-1000 shadow-lg" id="js-added-uni-container">
-      <div class="text-gray-600 text-center text-lg py-[10px] border-b border-gray-600">Added universities:</div>
-      <div class="mt-[10px]" id="js-added-uni-content">
-      </div>
-      <button class="text-gray-600 mt-auto text-lg bg-orange-300 py-[10px] hover:bg-[rgb(221,148,79)] hover:text-gray-800" id="js-confirm-btn">Confirm</button>
+    <div class="added-list" id="js-added-uni-list">
+
     </div>
   </div>
 
   <div class="hidden page" id="js-major-page">
-    <div>RESULT PAGE</div>
+    <div class="flex flex-col justify-center items-center">
+      <div class="flex w-full justify-center items-center gap-[10px] mt-[30px]">
+        <div class="circle-label">1</div>
+        <div class="line"></div>
+        <div class="circle-label bg-orange-400">2</div>
+        <div class="line"></div>
+        <div class="circle-label">3</div>
+      </div>
+      <div class="flex w-full justify-center items-center mt-[10px] mr-[40px]">
+        <div class="text-gray-600 text-lg">Select universities</div>
+        <div class="text-gray-600 ml-[28px] text-lg">Select majors</div>
+        <div class="text-gray-600 ml-[71px] text-lg">Results</div>
+      </div>
+      <img src="./images/books.svg" class="w-[260px] mt-[50px]">
+      <div class="flex mt-[50px]">
+        <button class="rounded-full w-12 h-12 flex items-center justify-center text-3xl transition-all duration-300 ease-in-out hover:scale-110 focus:outline-none" id="js-previous-uni-btn">
+          &lt;
+        </button>
+        <div class="dropdown group" id="js-major-dropdown">
+          <div class="flex justify-center">
+            <div class="rounded-[3px] w-[360px] px-[20px] py-[8px] bg-white text-xl text-gray-600 hover:bg-[rgb(241,206,144)] shadow-md text-center"></div>  
+          </div>
+          <div class="content w-[360px] top-[45px] group-hover:max-h-[240px]" id="js-major-dropdown-content">
+
+          </div>
+        </div>  
+        <button class="rounded-full w-12 h-12 flex items-center justify-center text-3xl transition-all duration-300 ease-in-out hover:scale-110 focus:outline-none" id="js-next-uni-btn">
+          &gt;
+        </button>
+      </div>
+      <div class="added-list" id="js-added-major-list">
+        <div class="title">Added majors:</div>
+        <div class="mt-[10px]" id="js-added-major-content">
+        </div>
+        <button class="confirm-btn" id="js-major-confirm-btn">Confirm</button>
+      </div>
+    </div>
   </div>
   <script src="../src/js/database.js"></script>
   <script src="../src/js/index.js"></script>

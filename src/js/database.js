@@ -12,7 +12,7 @@ function loadDatabase(path) {
     });
 }
 
-function reduceDataToCollege(db, college) {
+function filterDatabaseToCollege(db, college) {
   const filteredDb = new Map();
 
   for(const [key, value] of db) {

@@ -14,12 +14,24 @@ body {
   @apply relative flex flex-col w-[360px] justify-center items-center
 }
 
-.dropdown .content {
-  @apply absolute bg-white max-h-0 overflow-y-auto duration-500 rounded-bl-[4px] rounded-br-[4px] shadow-md
+.dropdown .searchbar {
+  @apply flex justify-between items-center text-[rgb(100,100,100)] bg-white p-[16px] text-xl rounded-[5px] hover:bg-[rgb(241,206,144)] shadow-md
 }
 
-.dropdown .content .btn {
+.dropdown .content {
+  @apply absolute group-hover:max-h-[220px] bg-white max-h-0 overflow-y-auto duration-[400ms] rounded-bl-[4px] rounded-br-[4px] shadow-md
+}
+
+.triangle {
+  @apply h-0 w-0 border-solid border-black border-b-[18px] border-x-[10px] border-x-transparent duration-[300ms] group-hover:rotate-180
+}
+
+.content .btn {
   @apply text-gray-600 text-left w-full border-none bg-transparent p-[10px] text-base hover:bg-[rgb(241,206,144)]
+}
+
+.dropdown .content .end-btn {
+  @apply w-full text-left border-none bg-transparent p-[10px] text-base text-gray-400 hover:bg-gray-100
 }
 
 .btn-toggled {
@@ -38,95 +50,25 @@ body {
   @apply h-[2px] bg-gray-600 w-[100px]
 }
 
-.end-btn {
-  width: 100%;
-  text-align: left;
-  border: none;
-  background-color: transparent;
-  padding: 10px 10px 10px 10px;
-  font-size: 14px;
-  display: block;
-  color: gray;
+.added-list {
+  @apply flex flex-col absolute top-[19vh] left-[25vh] bg-white rounded-[5px] w-[275px] shadow-lg transition-[height] overflow-hidden duration-1000 h-0
 }
 
-.end-btn:hover {
-  background-color: rgba(240, 240, 240);
+.added-list .content {
+  @apply h-[40px] text-gray-800 py-[5px]
 }
 
-.btn:hover {
-  background-color: rgb(241, 206, 144);
+.added-list .confirm-btn {
+  @apply text-gray-600 mt-auto text-lg bg-orange-300 py-[10px] hover:bg-[rgb(221,148,79)] hover:text-gray-800
 }
 
-.del-btn {
-  color: rgb(58, 58, 58);
-  width: 100%;
-  text-align: left;
-  border: none;
-  background-color: transparent;
-  padding: 10px 10px 10px 10px;
-  font-size: 14px;
-  display: block;
-}
-
-.del-btn:hover {
-  background-color: rgb(255, 94, 0);
-}
-
-.end-btn-r:hover {
-  background-color: rgb(230, 230, 230);
-}
-
-.title-r {
-  margin-bottom: 15px;
-  color: rgb(120, 120, 120);
-  display: block;
-}
-
-.dropdown-r {
-  display: flex;
-  flex-direction: column;
-  margin-top: 25px;
-  min-width: 250px;
-  max-width: 340px;
-}
-
-.dropdown-content-r {
-  min-height: 10vh;
-  max-height: 80vh;
-  overflow-y: scroll;
-  background-color: rgb(243, 240, 233);
-  border-radius: 5px;
-}
-
-.dropdown-a {
-  display: flex;
-  flex-direction: column;
-  margin-top: 25px;
-  width: 340px;
-}
-
-.dropdown-content-a {
-  min-width: 250px;
-  max-width: 340px;
-  background-color: rgb(255, 209, 141);
-  border: solid 2px rgb(202, 131, 0);
-  border-radius: 5px;
-  max-height: 70vh;
-  overflow: auto;
+.added-list .title {
+  @apply text-gray-600 text-center text-lg py-[10px] border-b border-gray-600
 }
 
 .college-title {
   color: rgb(100, 100, 100);
   display: none;
-}
-
-.arrowhead {
-  margin-top: 30vh;
-  width: 0;
-  height: 0;
-  border-top: 16px solid transparent;
-  border-bottom: 16px solid transparent;
-  border-left: 16px solid rgb(94, 94, 94);
 }
 
 .optimized-courses-btn {
