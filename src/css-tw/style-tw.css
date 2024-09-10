@@ -19,7 +19,7 @@ body {
 }
 
 .dropdown .content {
-  @apply absolute group-hover:max-h-[220px] bg-white max-h-0 overflow-y-auto duration-[400ms] rounded-bl-[4px] rounded-br-[4px] shadow-md
+  @apply absolute bg-white max-h-0 overflow-y-auto duration-[400ms] rounded-bl-[4px] rounded-br-[4px] shadow-md
 }
 
 .triangle {

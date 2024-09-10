@@ -1,13 +1,12 @@
 let PAGE_ARR = []; //used in: displayPage()
 PAGE_ARR.push(document.getElementById('js-landing-page'));
 PAGE_ARR.push(document.getElementById('js-step-one-page'));
-PAGE_ARR.push(document.getElementById('js-major-page'));
+PAGE_ARR.push(document.getElementById('js-step-two-page'));
 
 let DB;
 loadDatabase('./../src/articulations.json').then(result => {
   DB = result;
 });
-let COLLEGENAME;
 let selectedSchools = [];
 let selectedMajors = [];
 
@@ -15,21 +14,9 @@ class Dropdown {
   toggledBtns = [];
   constructor(dropdownId) {
     this.dropdown = document.getElementById(dropdownId);
-
-    this.searchbar = document.createElement('div');
-    this.searchbar.id = 'searchbar';
-    this.searchbar.classList.add('searchbar');
-    this.dropdown.append(this.searchbar);
-
-    let triangle = document.createElement('div');
-    triangle.classList.add('triangle');
-
-    this.content = document.createElement('div');
-    this.content.id = 'content';
-    this.content.classList.add('content');
-    this.dropdown.append(this.content);
-
-    this.searchbar.append(triangle);
+    this.searchbar = this.dropdown.querySelector('.searchbar');
+    this.triangle = this.searchbar.querySelector('.triangle');
+    this.content = this.dropdown.querySelector('.content');
   }
 
   addBtn(id, text, func) {
@@ -106,10 +93,12 @@ class AddedList {
       this.addedList.style.height = '0px';
     }
   }
+
+  addConfirmBtnListener(func) {
+    this.confirmBtn.addEventListener('click', func);
+  }
 }
 
-
-landingPage();
 
 function displayPageHTML(classNameToShow) {
   PAGE_ARR.forEach(page => {
@@ -122,7 +111,7 @@ function displayPageHTML(classNameToShow) {
   });
 }
 
-function landingPage() {
+document.addEventListener('DOMContentLoaded', function() {
   displayPageHTML('js-landing-page');
 
   let dropdown = new Dropdown('js-college-dropdown');
@@ -135,11 +124,10 @@ function landingPage() {
   dropdown.addEndBtn();
 
   function deAnzaFunc(btn) {
-    COLLEGENAME = 'DeAnza';
-    DB = filterDatabaseToCollege(DB, COLLEGENAME);
+    DB = filterDatabaseToCollege(DB, 'DeAnza');
     stepOnePage();
   }
-}
+});
 
 
 function stepOnePage() {
@@ -158,126 +146,28 @@ function stepOnePage() {
   let addedList = new AddedList('js-added-uni-list');
   addedList.changeTitle('Added universities:');
 
+  addedList.addConfirmBtnListener(confirmBtnFunc);
+
   function btnFunc(btn) {
     btn.classList.toggle('btn-toggled');
     addedList.toggle(btn.id);
   }
-  /*
-  function updateSelectUniBtn() {
-    const addedUniContainer = document.getElementById('js-added-uni-container');
-    const addedUniContent = document.getElementById('js-added-uni-content');
-    const schools = dropdown.querySelectorAll('*');
-    schools.forEach(school => {
-      school.addEventListener('click', () => {
-        school.classList.toggle('btn-toggled');
-        
-        if (selectedSchools.includes(school)) {
-          selectedSchools = selectedSchools.filter(selectedSchool => selectedSchool !== school);
-        } 
-        else {
-          selectedSchools.push(school);
-        }
-        updateAddedUniText(selectedSchools);
-      });
+
+  function confirmBtnFunc() {
+    let btns = addedList.content.querySelectorAll('div');
+    let ids = [];
+    btns.forEach(btn => {
+     ids.push(btn.id);
     });
-  
-    function updateAddedUniText(selectedSchools) {
-      if (selectedSchools.length == 0) {
-        addedUniContainer.style.height = '0px';
-      } 
-      else {
-        addedUniContainer.style.height = '400px';
-      }
-      
-      addedUniContent.innerHTML = '';
-      selectedSchools.forEach(school => {
-        newAddedSchool = document.createElement('li');
-        newAddedSchool.classList.add('added-uni');
-        newAddedSchool.textContent = school.textContent;
-        addedUniContent.appendChild(newAddedSchool);
-      })
-    }
-    */
+    stepTwoPage(ids);
+  }
 }
 
 
-function stepTwoPage() {
-  let currUniNum = 0;
-  displayMajorDropdown(currUniNum);
+function stepTwoPage(ids) {
+  displayPageHTML('js-step-two-page');
 
-  function displayMajorDropdown(num) {
-    if(num > selectedSchools.size) {
-      num = selectedSchools.size;
-    }
   
-    majorDropdown = document.getElementById('js-major-dropdown');
-    const currUniName = selectedSchools[num].textContent;
-    majorDropdown.children[0].children[0].textContent = currUniName;
-    let majors = DB.get(getTableNameFromUni(currUniName));
-    majorDropdown.children[1].innerHTML = '';
-    majors.forEach(major => {
-      majorBtn = document.createElement('div');
-      majorBtn.classList.add('btn');
-      majorBtn.textContent = major.id;
-      majorDropdown.children[1].appendChild(majorBtn);
-    });
-  
-    updateSelectedMajor();
-  }
-  
-  previousUniBtn = document.getElementById('js-previous-uni-btn');
-  previousUniBtn.addEventListener('click', () => {
-    if(currUniNum != 0) {
-      currUniNum -= 1;
-    }
-    displayMajorDropdown(currUniNum);
-  });
-  
-  nextUniBtn = document.getElementById('js-next-uni-btn');
-  nextUniBtn.addEventListener('click', () => {
-    if(currUniNum != selectedSchools.length - 1) {
-      currUniNum += 1;
-    }
-    displayMajorDropdown(currUniNum);
-  });
-  
-  function updateSelectedMajor() {
-    const majors = document.getElementById('js-major-dropdown-content').querySelectorAll('*');
-    const addedMajorList = document.getElementById('js-added-major-list');
-    const addedMajorContent = document.getElementById('js-added-major-content');
-  
-    majors.forEach(major => {
-      major.addEventListener('click', () => {
-        major.classList.toggle('btn-toggled');
-        
-        if (selectedMajors.includes(major)) {
-          selectedMajors = selectedMajors.filter(selectedMajor => selectedMajor !== major);
-        } 
-        else {
-          selectedMajors.push(major);
-        }
-        
-        updateAddedMajorText(selectedMajors);
-      });
-    });
-  
-    function updateAddedMajorText(selectedMajors) {
-      if (selectedMajors.length == 0) {
-        addedMajorList.style.height = '0px';
-      } 
-      else {
-        addedMajorList.style.height = '400px';
-      }
-      
-      addedMajorContent.innerHTML = '';
-      selectedMajors.forEach(major => {
-        newAddedMajor = document.createElement('li');
-        newAddedMajor.classList.add('added-uni');
-        newAddedMajor.textContent = major.textContent;
-        addedMajorContent.appendChild(newAddedMajor);
-      })
-    }
-  }
 }
 
 
@@ -287,14 +177,6 @@ function getUniNameFromTable(tableName) {
   uniName = uniName.replace(/0/g, ',').replace(/\_/g, ' ');
   uniName = uniName.replace(/_*$/, '');
   return uniName;
-}
-
-
-function getTableNameFromUni(uniName) {
-  let tableName = `${COLLEGENAME}_to_`;
-  uniName = uniName.replace(/ /g, '_').replace(/,/g, '0');
-  tableName += uniName;
-  return tableName;
 }
 
 

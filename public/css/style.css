@@ -903,10 +903,6 @@ body {
   transition-duration: 400ms;
 }
 
-.group:hover .dropdown .content {
-  max-height: 220px;
-}
-
 .triangle {
   height: 0px;
   width: 0px;
@@ -1096,6 +1092,14 @@ body {
   outline-offset: 2px;
 }
 
+.group:hover .group-hover\:max-h-\[230px\] {
+  max-height: 230px;
+}
+
 .group:hover .group-hover\:max-h-\[240px\] {
   max-height: 240px;
+}
+
+.group:hover .group-hover\:max-h-\[300px\] {
+  max-height: 300px;
 }
