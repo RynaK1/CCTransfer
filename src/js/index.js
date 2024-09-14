@@ -7,8 +7,6 @@ let DB;
 loadDatabase('./../src/articulations.json').then(result => {
   DB = result;
 });
-let selectedSchools = [];
-let selectedMajors = [];
 
 class Dropdown {
   toggledBtns = [];
@@ -36,7 +34,8 @@ class Dropdown {
   }
 
   changeSearchBarText(text) {
-    this.searchbar.insertAdjacentHTML('afterbegin', text);
+    let textNode = this.searchbar.firstChild;
+    textNode.textContent = text;
   }
 
   setDimensions(width, height) {
@@ -74,7 +73,7 @@ class AddedList {
     this.title.textContent = text;
   }
 
-  toggle(id) {
+  toggle(id, text) {
     const targetDiv = this.content.querySelector(`#${id}`);
     if(targetDiv) {
       targetDiv.remove();
@@ -82,7 +81,7 @@ class AddedList {
     else {
       let div = document.createElement('div');
       div.id = id;
-      div.innerText = getUniNameFromTable(id);
+      div.innerText = getUniNameFromTable(text);
       this.content.append(div);
     }
 
@@ -139,7 +138,7 @@ function stepOnePage() {
   dropdown.setContentTop('53px');
 
   DB.forEach((value, key) => {
-    dropdown.addBtn(key, getUniNameFromTable(key), btnFunc);
+    dropdown.addBtn(key + '-btn', getUniNameFromTable(key), btnFunc);
   });
   dropdown.addEndBtn();
 
@@ -150,14 +149,16 @@ function stepOnePage() {
 
   function btnFunc(btn) {
     btn.classList.toggle('btn-toggled');
-    addedList.toggle(btn.id);
+    const index = btn.id.lastIndexOf('-');
+    addedList.toggle(btn.id, btn.id.slice(0, index));
   }
 
   function confirmBtnFunc() {
     let btns = addedList.content.querySelectorAll('div');
     let ids = [];
     btns.forEach(btn => {
-     ids.push(btn.id);
+      const index = btn.id.lastIndexOf('-');
+      ids.push(btn.id.slice(0, index));
     });
     stepTwoPage(ids);
   }
@@ -165,10 +166,37 @@ function stepOnePage() {
 
 
 function stepTwoPage(ids) {
+  console.log(ids);
   displayPageHTML('js-step-two-page');
 
+  let dropdown = new Dropdown('js-major-dropdown');
+  dropdown.setDimensions('340px', '55px');
+
+  let addedList = new AddedList('js-added-major-list');
+  let addedListArr = [];
+  let idsIndex = 0;
   
-}
+  loadDropdownHTML (ids[0]);
+
+  let prevBtn = document.getElementById('js-previous-btn');
+  prevBtn.addEventListener('click', () => {
+    if(idsIndex > 0) {
+      idsIndex -= 1;
+      loadDropdownHTML (ids[idsIndex]);
+    }
+  });
+  let nextBtn = document.getElementById('js-next-btn');
+  nextBtn.addEventListener('click', () => {
+    if(idsIndex < ids.length - 1) {
+      idsIndex += 1;
+      loadDropdownHTML (ids[idsIndex]);
+    }
+  });
+
+  function loadDropdownHTML(id) {
+    dropdown.changeSearchBarText(getUniNameFromTable(id));
+  }
+;}
 
 
 function getUniNameFromTable(tableName) {

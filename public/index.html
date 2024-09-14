@@ -52,9 +52,7 @@
         <div class="content group-hover:max-h-[230px]"></div>
       </div>
     </div>
-    <div class="added-list" id="js-added-uni-list">
-
-    </div>
+    <div class="added-list" id="js-added-uni-list"></div>
   </div>
 
   <div class="hidden page" id="js-step-two-page">
@@ -72,29 +70,22 @@
         <div class="text-gray-600 ml-[71px] text-lg">Results</div>
       </div>
       <img src="./images/books.svg" class="w-[260px] mt-[50px]">
-      <div class="flex mt-[50px]">
-        <button class="rounded-full w-12 h-12 flex items-center justify-center text-3xl transition-all duration-300 ease-in-out hover:scale-110 focus:outline-none" id="js-previous-uni-btn">
+      <div class="flex justify-center items-center mt-[50px]">
+        <button class="rounded-full w-12 h-12 flex items-center justify-center text-3xl transition-all duration-300 ease-in-out hover:scale-125" id="js-previous-btn">
           &lt;
         </button>
-        <div class="dropdown group" id="js-major-dropdown">
-          <div class="flex justify-center">
-            <div class="rounded-[3px] w-[360px] px-[20px] py-[8px] bg-white text-xl text-gray-600 hover:bg-[rgb(241,206,144)] shadow-md text-center"></div>  
+        <div class="group dropdown" id="js-major-dropdown">
+          <div class="searchbar">
+            <div class="triangle"></div>
           </div>
-          <div class="content w-[360px] top-[45px] group-hover:max-h-[240px]" id="js-major-dropdown-content">
-
-          </div>
-        </div>  
-        <button class="rounded-full w-12 h-12 flex items-center justify-center text-3xl transition-all duration-300 ease-in-out hover:scale-110 focus:outline-none" id="js-next-uni-btn">
+          <div class="content group-hover:max-h-[230px]"></div>
+        </div> 
+        <button class="rounded-full w-12 h-12 flex items-center justify-center text-3xl transition-all duration-300 ease-in-out hover:scale-125" id="js-next-btn">
           &gt;
         </button>
       </div>
-      <div class="added-list" id="js-added-major-list">
-        <div class="title">Added majors:</div>
-        <div class="mt-[10px]" id="js-added-major-content">
-        </div>
-        <button class="confirm-btn" id="js-major-confirm-btn">Confirm</button>
-      </div>
     </div>
+    <div class="added-list" id="js-added-major-list"></div>
   </div>
   <script src="../src/js/database.js"></script>
   <script src="../src/js/index.js"></script>

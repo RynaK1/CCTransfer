@@ -575,10 +575,6 @@ video {
   top: 50%;
 }
 
-.top-\[45px\] {
-  top: 45px;
-}
-
 .z-40 {
   z-index: 40;
 }
@@ -651,10 +647,6 @@ video {
   width: 260px;
 }
 
-.w-\[360px\] {
-  width: 360px;
-}
-
 .w-full {
   width: 100%;
 }
@@ -689,10 +681,6 @@ video {
   gap: 10px;
 }
 
-.rounded-\[3px\] {
-  border-radius: 3px;
-}
-
 .rounded-\[7px\] {
   border-radius: 7px;
 }
@@ -724,11 +712,6 @@ video {
   background-color: rgb(251 146 60 / var(--tw-bg-opacity));
 }
 
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -754,16 +737,6 @@ video {
 
 .p-\[30px\] {
   padding: 30px;
-}
-
-.px-\[20px\] {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.py-\[8px\] {
-  padding-top: 8px;
-  padding-bottom: 8px;
 }
 
 .text-center {
@@ -816,12 +789,6 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.shadow-md {
-  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .transition {
@@ -1076,28 +1043,14 @@ body {
   border: solid 2px rgb(170, 111, 0);
 }
 
-.hover\:scale-110:hover {
-  --tw-scale-x: 1.1;
-  --tw-scale-y: 1.1;
+.hover\:scale-125:hover {
+  --tw-scale-x: 1.25;
+  --tw-scale-y: 1.25;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.hover\:bg-\[rgb\(241\2c 206\2c 144\)\]:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(241 206 144 / var(--tw-bg-opacity));
-}
-
-.focus\:outline-none:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
 }
 
 .group:hover .group-hover\:max-h-\[230px\] {
   max-height: 230px;
-}
-
-.group:hover .group-hover\:max-h-\[240px\] {
-  max-height: 240px;
 }
 
 .group:hover .group-hover\:max-h-\[300px\] {
