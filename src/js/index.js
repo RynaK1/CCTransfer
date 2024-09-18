@@ -9,7 +9,6 @@ loadDatabase('./../src/articulations.json').then(result => {
 });
 
 class Dropdown {
-  toggledBtns = [];
   constructor(dropdownId) {
     this.dropdown = document.getElementById(dropdownId);
     this.searchbar = this.dropdown.querySelector('.searchbar');
@@ -47,6 +46,10 @@ class Dropdown {
   setContentTop(space) {
     this.content.style.top = space;
   }
+
+  empty() {
+    this.content.innerHTML = '';
+  }
 }
 
 
@@ -74,14 +77,14 @@ class AddedList {
   }
 
   toggle(id, text) {
-    const targetDiv = this.content.querySelector(`#${id}`);
-    if(targetDiv) {
-      targetDiv.remove();
+    let targetBtn = this.content.querySelector(`#${id}`);
+    if(targetBtn) {
+      targetBtn.remove();
     }
     else {
       let div = document.createElement('div');
       div.id = id;
-      div.innerText = getUniNameFromTable(text);
+      div.innerText = convertToRealName(text);
       this.content.append(div);
     }
 
@@ -95,6 +98,15 @@ class AddedList {
 
   addConfirmBtnListener(func) {
     this.confirmBtn.addEventListener('click', func);
+  }
+
+  getAddedList() {
+    const nodeList = Array.from(this.content.querySelectorAll(`div`));
+    const arr = [];
+    nodeList.forEach(node => {
+      arr.push(node.id.replace(/^div#/, ''));
+    })
+    return arr;
   }
 }
 
@@ -138,7 +150,7 @@ function stepOnePage() {
   dropdown.setContentTop('53px');
 
   DB.forEach((value, key) => {
-    dropdown.addBtn(key + '-btn', getUniNameFromTable(key), btnFunc);
+    dropdown.addBtn(key + '-btn', convertToRealName(key), btnFunc);
   });
   dropdown.addEndBtn();
 
@@ -166,14 +178,14 @@ function stepOnePage() {
 
 
 function stepTwoPage(ids) {
-  console.log(ids);
   displayPageHTML('js-step-two-page');
 
   let dropdown = new Dropdown('js-major-dropdown');
   dropdown.setDimensions('340px', '55px');
+  dropdown.setContentTop('53px');
 
   let addedList = new AddedList('js-added-major-list');
-  let addedListArr = [];
+  addedList.changeTitle('Added Majors:');
   let idsIndex = 0;
   
   loadDropdownHTML (ids[0]);
@@ -194,17 +206,39 @@ function stepTwoPage(ids) {
   });
 
   function loadDropdownHTML(id) {
-    dropdown.changeSearchBarText(getUniNameFromTable(id));
+    dropdown.changeSearchBarText(convertToRealName(id));
+    dropdown.empty();
+
+    const list = addedList.getAddedList();
+    const majors = DB.get(id);
+    majors.forEach(major => {
+      const btnId = convertToVarName(`${id} ${major.id}`);
+      dropdown.addBtn(btnId, major.id, btnFunc);
+
+      if(list.includes(btnId)) {
+        dropdown.content.querySelector(`#${btnId}`).classList.add('btn-toggled');
+      }
+    })
+
+    function btnFunc(btn) {
+      btn.classList.toggle('btn-toggled');
+      addedList.toggle(btn.id, convertToRealName(btn.id));
+    }
   }
 ;}
 
 
-function getUniNameFromTable(tableName) {
+function convertToRealName(tableName) {
   index = tableName.indexOf('_', tableName.indexOf('_') + 1);
   uniName = tableName.slice(index + 1);
   uniName = uniName.replace(/0/g, ',').replace(/\_/g, ' ');
   uniName = uniName.replace(/_*$/, '');
   return uniName;
+}
+
+
+function convertToVarName(text) {
+  return text.replace(/\s/g, '_').replace(/[.:&]/g, '');
 }
 
 
