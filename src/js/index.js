@@ -2,6 +2,7 @@ let PAGE_ARR = []; //used in: displayPage()
 PAGE_ARR.push(document.getElementById('js-landing-page'));
 PAGE_ARR.push(document.getElementById('js-step-one-page'));
 PAGE_ARR.push(document.getElementById('js-step-two-page'));
+PAGE_ARR.push(document.getElementById('js-step-three-page'));
 
 let DB;
 loadDatabase('./../src/articulations.json').then(result => {
@@ -89,10 +90,12 @@ class AddedList {
     }
 
     if(this.content.querySelectorAll('div').length != 0) {
-      this.addedList.style.height = '400px';
+      this.addedList.style.height = '450px';
+      this.content.style.height = '373px';
     }
     else{
       this.addedList.style.height = '0px';
+      this.content.style.height = '0px';
     }
   }
 
@@ -205,6 +208,8 @@ function stepTwoPage(ids) {
     }
   });
 
+  addedList.addConfirmBtnListener(confirmBtnFunc);
+
   function loadDropdownHTML(id) {
     dropdown.changeSearchBarText(convertToRealName(id));
     dropdown.empty();
@@ -212,33 +217,71 @@ function stepTwoPage(ids) {
     const list = addedList.getAddedList();
     const majors = DB.get(id);
     majors.forEach(major => {
-      const btnId = convertToVarName(`${id} ${major.id}`);
+      const btnId = convertToVarName(`${id}-${major.id}`);
+      const uniAndMajorName = `${convertToRealName(id)}: ${major.id}`
       dropdown.addBtn(btnId, major.id, btnFunc);
 
       if(list.includes(btnId)) {
         dropdown.content.querySelector(`#${btnId}`).classList.add('btn-toggled');
       }
-    })
-
-    function btnFunc(btn) {
-      btn.classList.toggle('btn-toggled');
-      addedList.toggle(btn.id, convertToRealName(btn.id));
-    }
+    });
   }
-;}
+
+  function btnFunc(btn) {
+    btn.classList.toggle('btn-toggled');
+    addedList.toggle(btn.id, `${dropdown.searchbar.innerText}: ${btn.innerText}`);
+  }
+
+  function confirmBtnFunc() {
+    let result = [];
+    const content = addedList.content.querySelectorAll('div');
+    content.forEach(div => {
+      const uniAndMajor = {
+        uni: div.id.split('-')[0],
+        major: div.innerText.split(/:(.+)/)[1].slice(1)
+      };
+      result.push(uniAndMajor);
+    });
+
+    const finalResult = calculate(result);
+    stepThreePage(finalResult);
+  }
+
+  function calculate(result) {
+    let loading = document.getElementById('js-loading-container');
+    loading.classList.remove('hidden');
+    loading.classList.add('block');
+  
+    targetData = [];
+    result.forEach(elem => {
+      let uni = DB.get(elem.uni);
+      targetData.push(uni.find(e => e.id === elem.major));
+    });
+    let finalResult = findOptimalCourseSet(targetData);
+    console.log(finalResult);
+    return finalResult;
+  }
+}
+
+
+function stepThreePage(result) {
+  displayPageHTML('js-step-three-page');
+}
 
 
 function convertToRealName(tableName) {
   index = tableName.indexOf('_', tableName.indexOf('_') + 1);
   uniName = tableName.slice(index + 1);
-  uniName = uniName.replace(/0/g, ',').replace(/\_/g, ' ');
-  uniName = uniName.replace(/_*$/, '');
+  uniName = uniName
+    .replace(/0/g, ',')
+    .replace(/\_/g, ' ')
+    .replace(/_*$/, '')
   return uniName;
 }
 
 
 function convertToVarName(text) {
-  return text.replace(/\s/g, '_').replace(/[.:&]/g, '');
+  return text.replace(/\s/g, '_').replace(/[.:&/()]/g, '');
 }
 
 
@@ -246,25 +289,6 @@ function findDivByText(list, text) {
   return Array.from(document.querySelectorAll(`${list} div`))
     .find(div => div.textContent.trim() === text.trim());
 }
-
-
-//********************************* keep beyond here ******************************************/
-
-/*
-optimizedCourses = document.getElementById('js-optimized-courses-btn');
-optimizedCourses.addEventListener('click', () => {
-  let clickedArticsBack = JSON.parse(localStorage.getItem('clickedArticsBack')) || [];
-  if(clickedArticsBack.length != 0) {
-    let result = [];
-    clickedArticsBack.forEach(articBack => {
-      const names = articBack.split("-");
-      result.push(db.get(names[0]).find(major => major.id === names[1]));
-    });
-    displayPageHTML('js-result-page');
-    console.log(findOptimalCourseSet(result));
-  }
-});
-*/
 
 
 function saveToStorage(key, word) {
@@ -304,6 +328,7 @@ function parseCustomArray(str) {
     return [];
   }
 }
+
 
 function findOptimalCourseSet(data) {
   const parsedData = data.map(item => ({
@@ -354,6 +379,7 @@ function findOptimalCourseSet(data) {
   }
 
   backtrack(0, { courses: new Set(), majors: [], pathCombination: [] });
+
   // Count course requirements for the optimal path
   const courseRequirements = {};
   optimalSet.pathCombination.forEach(({ major, path }) => {

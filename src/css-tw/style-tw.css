@@ -55,7 +55,7 @@ body {
 }
 
 .added-list .content {
-  @apply h-[40px] text-gray-800 py-[5px]
+  @apply h-[40px] text-gray-800 py-[5px] overflow-y-auto
 }
 
 .added-list .confirm-btn {

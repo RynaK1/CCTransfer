@@ -86,6 +86,37 @@
       </div>
     </div>
     <div class="added-list" id="js-added-major-list"></div>
+    <div class="fixed hidden transform top-0 right-0 bottom-0 left-0 bg-white bg-opacity-50" id="js-loading-container">
+      <div class="flex justify-center fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[250px] h-[150px] bg-[rgb(240,219,177)] rounded" id="js-loading">
+        <div class="text-gray-800">Calculating paths...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="js-step-three-page">
+    <div class="flex flex-col justify-center items-center">
+      <div class="flex w-full justify-center items-center gap-[10px] mt-[30px]">
+        <div class="circle-label">1</div>
+        <div class="line"></div>
+        <div class="circle-label">2</div>
+        <div class="line"></div>
+        <div class="circle-label bg-orange-400">3</div>
+      </div>
+      <div class="flex w-full justify-center items-center mt-[10px] mr-[40px]">
+        <div class="text-gray-600 text-lg">Select universities</div>
+        <div class="text-gray-600 ml-[28px] text-lg">Select majors</div>
+        <div class="text-gray-600 ml-[71px] text-lg">Results</div>
+      </div>
+
+      <div>
+        
+      </div>
+      <div>Classes with the most overlap are considered to be more important, therefore should be taken with higher priority</div>
+      <div class="flex justify-between">
+        <div>DeAnza Required Classes</div>
+        <div>Applicable majors at universities</div>
+      </div>
+    </div>
   </div>
   <script src="../src/js/database.js"></script>
   <script src="../src/js/index.js"></script>
