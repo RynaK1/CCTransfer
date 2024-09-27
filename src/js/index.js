@@ -126,6 +126,40 @@ function displayPageHTML(classNameToShow) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('click', testFunc);
+  
+  function testFunc() {
+    document.removeEventListener('click', testFunc);
+    let test = [
+      {
+        uni: "DeAnza_to_UC_Berkeley",
+        major: "African American Studies B.A."
+      },
+      {
+        uni: "DeAnza_to_UC_Berkeley",
+        major: "Anthropology B.A."
+      },
+      {
+        uni: "DeAnza_to_UC_Davis",
+        major: "Art History B.A."
+      },
+      {
+        uni: "DeAnza_to_UC_Davis",
+        major: "Applied Physics B.S."
+      },
+      {
+        uni: "DeAnza_to_UC_San_Diego",
+        major: "Biology: Human Biology B.S."
+      },
+      {
+        uni: "DeAnza_to_UC_San_Diego",
+        major: "Cognitive Science: Machine Learning and Neural Computation"
+      },
+    ];
+    const test2 = calculate(test);
+    stepThreePage(test2);
+  }
+  /*
   displayPageHTML('js-landing-page');
 
   let dropdown = new Dropdown('js-college-dropdown');
@@ -141,6 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
     DB = filterDatabaseToCollege(DB, 'DeAnza');
     stepOnePage();
   }
+  */
 });
 
 
@@ -246,26 +281,57 @@ function stepTwoPage(ids) {
     const finalResult = calculate(result);
     stepThreePage(finalResult);
   }
+}
 
-  function calculate(result) {
-    let loading = document.getElementById('js-loading-container');
-    loading.classList.remove('hidden');
-    loading.classList.add('block');
-  
-    targetData = [];
-    result.forEach(elem => {
-      let uni = DB.get(elem.uni);
-      targetData.push(uni.find(e => e.id === elem.major));
-    });
-    let finalResult = findOptimalCourseSet(targetData);
-    console.log(finalResult);
-    return finalResult;
-  }
+
+function calculate(result) {
+  let loading = document.getElementById('js-loading-container');
+  loading.classList.remove('hidden');
+  loading.classList.add('block');
+
+  targetData = [];
+  result.forEach(elem => {
+    let uni = DB.get(elem.uni);
+    const target = uni.find(e => e.id === elem.major);
+    target['uniId'] = elem.uni;
+    target['uni'] = convertToRealName(elem.uni);
+    targetData.push(target);
+  });
+  let finalResult = findOptimalCourseSet(targetData);
+  console.log(finalResult);
+  return finalResult;
 }
 
 
 function stepThreePage(result) {
   displayPageHTML('js-step-three-page');
+
+  const grid = document.getElementById('js-result-content');
+  const path = result['optimalPath'];
+  path.forEach(course => {
+    const rowDiv = document.createElement('div');
+    rowDiv.classList.add('grid-elem', 'w-[900px]');
+    grid.append(rowDiv);
+    
+    const courseDiv = document.createElement('div');
+    courseDiv.innerText = course;
+    rowDiv.append(courseDiv);
+
+    const overlapDiv = document.createElement('div');
+    overlapDiv.classList.add('flex');
+    const majorArrLength = result['allMajorsAndNotes'].length;
+    for(let i=0; i< majorArrLength; i++)  {
+      const majors = DB.get(result['allMajorsAndNotes'][i]['uniId']);
+      const major = majors.find(major => major.id === result['allMajorsAndNotes'][i]['major']);
+      console.log(major);
+      if(major['paths'].includes(course)) {
+        const uni = document.createElement('div');
+        uni.innerText = `${result['allMajorsAndNotes'][i]['uni']}\n${result['allMajorsAndNotes'][i]['major']}`;
+        overlapDiv.append(uni);
+      }
+    }
+    rowDiv.append(overlapDiv);
+  });
 }
 
 
@@ -282,40 +348,6 @@ function convertToRealName(tableName) {
 
 function convertToVarName(text) {
   return text.replace(/\s/g, '_').replace(/[.:&/()]/g, '');
-}
-
-
-function findDivByText(list, text) {
-  return Array.from(document.querySelectorAll(`${list} div`))
-    .find(div => div.textContent.trim() === text.trim());
-}
-
-
-function saveToStorage(key, word) {
-  let arr = JSON.parse(localStorage.getItem(key)) || [];
-  if (arr.includes(word)) {
-    arr = arr.filter(elem => {
-      return elem !== word;
-    });
-  } else {
-    arr.push(word);
-  }
-  localStorage.setItem(key, JSON.stringify(arr));
-}
-
-
-function delFromStorage(key, elem) {
-  let arr = JSON.parse(localStorage.getItem(key)) || '[]';
-  const index = arr.indexOf(elem);
-
-  if (index > -1) {
-      arr.splice(index, 1);
-      localStorage.setItem(key, JSON.stringify(arr));
-      console.log(`Deleted ${elem} from ${key}`);
-  } 
-  else {
-      console.log(`${elem} not found in ${key}`);
-  }
 }
 
 
@@ -401,15 +433,15 @@ function findOptimalCourseSet(data) {
   }));
 
   const allMajorsAndNotes = data.map(item => ({
+    uniId: item.uniId,
+    uni: item.uni,
     major: item.id,
     notes: item.notes
   }));
 
   return {
     optimalPath: Array.from(optimalSet.courses),
-    satisfiedMajors: optimalSet.majors,
     courseOverlapList,
-    allMajorsAndNotes,
-    skippedMajors: data.filter(item => parseCustomArray(item.paths).length === 0).map(item => item.id)
+    allMajorsAndNotes
   };
 }

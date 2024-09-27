@@ -66,6 +66,10 @@ body {
   @apply text-gray-600 text-center text-lg py-[10px] border-b border-gray-600
 }
 
+.grid-elem {
+  @apply grid grid-cols-[150px_727px] border border-gray-300 w-[900px]
+}
+
 .college-title {
   color: rgb(100, 100, 100);
   display: none;
