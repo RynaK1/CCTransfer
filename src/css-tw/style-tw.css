@@ -7,7 +7,7 @@ body {
 }
 
 .page {
-  @apply absolute top-[75px] inset-0 bg-orange-100
+  @apply absolute top-[75px] inset-0 bg-[rgb(252,243,221)]
 }
 
 .dropdown {
@@ -64,6 +64,10 @@ body {
 
 .added-list .title {
   @apply text-gray-600 text-center text-lg py-[10px] border-b border-gray-600
+}
+
+.added-elem {
+  @apply ml-[10px] text-lg text-gray-500;
 }
 
 .grid-elem {

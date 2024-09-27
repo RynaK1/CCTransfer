@@ -607,12 +607,12 @@ video {
   margin-bottom: 80px;
 }
 
-.ml-10 {
-  margin-left: 2.5rem;
-}
-
 .ml-\[28px\] {
   margin-left: 28px;
+}
+
+.ml-\[35px\] {
+  margin-left: 35px;
 }
 
 .ml-\[71px\] {
@@ -681,6 +681,10 @@ video {
 
 .w-\[260px\] {
   width: 260px;
+}
+
+.w-\[75px\] {
+  width: 75px;
 }
 
 .w-\[900px\] {
@@ -845,10 +849,6 @@ video {
   line-height: 1.75rem;
 }
 
-.font-bold {
-  font-weight: 700;
-}
-
 .leading-7 {
   line-height: 1.75rem;
 }
@@ -909,7 +909,7 @@ body {
   inset: 0px;
   top: 75px;
   --tw-bg-opacity: 1;
-  background-color: rgb(255 237 213 / var(--tw-bg-opacity));
+  background-color: rgb(252 243 221 / var(--tw-bg-opacity));
 }
 
 .dropdown {
@@ -1109,6 +1109,14 @@ body {
   line-height: 1.75rem;
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+
+.added-elem {
+  margin-left: 10px;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
 }
 
 .grid-elem {

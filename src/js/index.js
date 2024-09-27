@@ -84,6 +84,7 @@ class AddedList {
     }
     else {
       let div = document.createElement('div');
+      div.classList.add('added-elem');
       div.id = id;
       div.innerText = convertToRealName(text);
       this.content.append(div);
@@ -126,6 +127,7 @@ function displayPageHTML(classNameToShow) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  /*
   document.addEventListener('click', testFunc);
   
   function testFunc() {
@@ -159,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const test2 = calculate(test);
     stepThreePage(test2);
   }
-  /*
+  */
   displayPageHTML('js-landing-page');
 
   let dropdown = new Dropdown('js-college-dropdown');
@@ -175,7 +177,6 @@ document.addEventListener('DOMContentLoaded', function() {
     DB = filterDatabaseToCollege(DB, 'DeAnza');
     stepOnePage();
   }
-  */
 });
 
 
