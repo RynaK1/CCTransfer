@@ -307,29 +307,23 @@ function stepThreePage(result) {
   displayPageHTML('js-step-three-page');
 
   const grid = document.getElementById('js-result-content');
-  const path = result['optimalPath'];
-  path.forEach(course => {
+  result['coursesAndOverlaps'].forEach(courseOverlap => {
     const rowDiv = document.createElement('div');
     rowDiv.classList.add('grid-elem', 'w-[900px]');
     grid.append(rowDiv);
     
     const courseDiv = document.createElement('div');
-    courseDiv.innerText = course;
+    courseDiv.innerText = courseOverlap['course'];
     rowDiv.append(courseDiv);
 
     const overlapDiv = document.createElement('div');
     overlapDiv.classList.add('flex');
-    const majorArrLength = result['allMajorsAndNotes'].length;
-    for(let i=0; i< majorArrLength; i++)  {
-      const majors = DB.get(result['allMajorsAndNotes'][i]['uniId']);
-      const major = majors.find(major => major.id === result['allMajorsAndNotes'][i]['major']);
-      console.log(major);
-      if(major['paths'].includes(course)) {
-        const uni = document.createElement('div');
-        uni.innerText = `${result['allMajorsAndNotes'][i]['uni']}\n${result['allMajorsAndNotes'][i]['major']}`;
-        overlapDiv.append(uni);
-      }
+    for(let i=0; i<courseOverlap['requiredByCount']; i++) {
+      const majorDiv = document.createElement('div');
+      majorDiv.innerText = courseOverlap['majors'][i];
+      overlapDiv.append(majorDiv);
     }
+
     rowDiv.append(overlapDiv);
   });
 }
@@ -371,10 +365,9 @@ function findOptimalCourseSet(data) {
   if (parsedData.length === 0) {
     console.error("No valid majors with non-empty paths found");
     return {
-      optimalPath: [],
       satisfiedMajors: [],
-      courseOverlapList: [],
-      allMajorsAndNotes: data.map(item => ({ major: item.id, notes: item.notes })),
+      coursesAndOverlaps: [],
+      allMajorsAndNotes: data.map(item => ({major: item.id, notes: item.notes})),
       skippedMajors: data.map(item => item.id)
     };
   }
@@ -415,18 +408,20 @@ function findOptimalCourseSet(data) {
   // Count course requirements for the optimal path
   const courseRequirements = {};
   optimalSet.pathCombination.forEach(({ major, path }) => {
+    const majorData = parsedData.find(item => item.id === major);
+    const fullMajorName = `${majorData.uni}\n${major}`;
     path.forEach(course => {
       if (!courseRequirements[course]) {
         courseRequirements[course] = { count: 0, majors: [] };
       }
       courseRequirements[course].count++;
-      if (!courseRequirements[course].majors.includes(major)) {
-        courseRequirements[course].majors.push(major);
+      if (!courseRequirements[course].majors.includes(fullMajorName)) {
+        courseRequirements[course].majors.push(fullMajorName);
       }
     });
   });
 
-  const courseOverlapList = Object.entries(courseRequirements).map(([course, data]) => ({
+  const coursesAndOverlaps = Object.entries(courseRequirements).map(([course, data]) => ({
     course,
     requiredByCount: data.count,
     majors: data.majors
@@ -441,7 +436,7 @@ function findOptimalCourseSet(data) {
 
   return {
     optimalPath: Array.from(optimalSet.courses),
-    courseOverlapList,
+    coursesAndOverlaps,
     allMajorsAndNotes
   };
 }
