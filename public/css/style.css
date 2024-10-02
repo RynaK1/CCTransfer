@@ -612,8 +612,8 @@ video {
   margin-bottom: 80px;
 }
 
-.ml-\[25px\] {
-  margin-left: 25px;
+.ml-\[15px\] {
+  margin-left: 15px;
 }
 
 .ml-\[28px\] {
@@ -646,10 +646,6 @@ video {
 
 .mt-\[50px\] {
   margin-top: 50px;
-}
-
-.ml-\[15px\] {
-  margin-left: 15px;
 }
 
 .flex {

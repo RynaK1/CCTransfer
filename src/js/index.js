@@ -127,40 +127,32 @@ function displayPageHTML(classNameToShow) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  /*
   document.addEventListener('click', testFunc);
-  
   function testFunc() {
     document.removeEventListener('click', testFunc);
     let test = [
-      {
-        uni: "DeAnza_to_UC_Berkeley",
-        major: "African American Studies B.A."
-      },
       {
         uni: "DeAnza_to_UC_Berkeley",
         major: "Anthropology B.A."
       },
       {
         uni: "DeAnza_to_UC_Davis",
-        major: "Art History B.A."
+        major: "Anthropology B.A."
       },
       {
         uni: "DeAnza_to_UC_Davis",
-        major: "Applied Physics B.S."
+        major: "Anthropology B.S."
       },
       {
-        uni: "DeAnza_to_UC_San_Diego",
-        major: "Biology: Human Biology B.S."
-      },
-      {
-        uni: "DeAnza_to_UC_San_Diego",
-        major: "Cognitive Science: Machine Learning and Neural Computation"
-      },
+        uni: "DeAnza_to_UC_Irvine",
+        major: "Anthropology B.A."
+      }
     ];
     const test2 = calculate(test);
     stepThreePage(test2);
   }
-  /*
+  */
   displayPageHTML('js-landing-page');
 
   let dropdown = new Dropdown('js-college-dropdown');
@@ -176,7 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
     DB = filterDatabaseToCollege(DB, 'DeAnza');
     stepOnePage();
   }
-    */
 });
 
 
@@ -286,6 +277,7 @@ function stepTwoPage(ids) {
 
 
 function calculate(result) {
+  console.log(result);
   let loading = document.getElementById('js-loading-container');
   loading.classList.remove('hidden');
   loading.classList.add('block');
@@ -307,7 +299,6 @@ function calculate(result) {
 function stepThreePage(result) {
   displayPageHTML('js-step-three-page');
   result['coursesAndOverlaps'].sort((a, b) => b.requiredByCount - a.requiredByCount);
-  console.log(result);
 
   const grid = document.getElementById('js-result-content');
   result['coursesAndOverlaps'].forEach(courseOverlap => {
@@ -364,7 +355,8 @@ function parseCustomArray(str) {
 function findOptimalCourseSet(data) {
   const parsedData = data.map(item => ({
     ...item,
-    paths: parseCustomArray(item.paths)
+    paths: parseCustomArray(item.paths),
+    uniqueId: `${item.uni}_${item.id}` // Create a unique identifier for each major
   })).filter(item => item.paths.length > 0);
 
   if (parsedData.length === 0) {
@@ -372,7 +364,7 @@ function findOptimalCourseSet(data) {
     return {
       satisfiedMajors: [],
       coursesAndOverlaps: [],
-      allMajorsAndNotes: data.map(item => ({major: item.id, notes: item.notes})),
+      allMajorsAndNotes: data.map(item => ({uniId: item.uniId, uni: item.uni, major: item.id, notes: item.notes})),
       skippedMajors: data.map(item => item.id)
     };
   }
@@ -400,8 +392,8 @@ function findOptimalCourseSet(data) {
       if (newCourses.size < optimalSet.courses.size || optimalSet.courses.size === 0) {
         const newSet = {
           courses: newCourses,
-          majors: [...currentSet.majors, major.id],
-          pathCombination: [...currentSet.pathCombination, { major: major.id, path }]
+          majors: [...currentSet.majors, major.uniqueId],
+          pathCombination: [...currentSet.pathCombination, { major: major.uniqueId, path }]
         };
         backtrack(index + 1, newSet);
       }
@@ -413,23 +405,21 @@ function findOptimalCourseSet(data) {
   // Count course requirements for the optimal path
   const courseRequirements = {};
   optimalSet.pathCombination.forEach(({ major, path }) => {
-    const majorData = parsedData.find(item => item.id === major);
-    const fullMajorName = `${majorData.uni}\n${major}`;
+    const majorData = parsedData.find(item => item.uniqueId === major);
+    const fullMajorName = `${majorData.uni}\n${majorData.id}`;
     path.forEach(course => {
       if (!courseRequirements[course]) {
         courseRequirements[course] = { count: 0, majors: [] };
       }
       courseRequirements[course].count++;
-      if (!courseRequirements[course].majors.includes(fullMajorName)) {
-        courseRequirements[course].majors.push(fullMajorName);
-      }
+      courseRequirements[course].majors.push(fullMajorName);
     });
   });
 
-  const coursesAndOverlaps = Object.entries(courseRequirements).map(([course, data]) => ({
+  const coursesAndOverlaps = Array.from(optimalSet.courses).map(course => ({
     course,
-    requiredByCount: data.count,
-    majors: data.majors
+    requiredByCount: courseRequirements[course].count,
+    majors: courseRequirements[course].majors
   }));
 
   const allMajorsAndNotes = data.map(item => ({
