@@ -71,7 +71,15 @@ body {
 }
 
 .grid-elem {
-  @apply grid grid-cols-[150px_727px] border border-gray-300 w-[900px]
+  @apply grid grid-cols-[165px_735px] border-x border-t border-gray-300 w-[900px] h-[80px]
+}
+
+.course-result {
+  @apply flex items-center justify-center
+}
+
+.major-result {
+  @apply px-[15px] max-w-[275px];
 }
 
 .college-title {

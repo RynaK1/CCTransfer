@@ -127,7 +127,6 @@ function displayPageHTML(classNameToShow) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  /*
   document.addEventListener('click', testFunc);
   
   function testFunc() {
@@ -161,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const test2 = calculate(test);
     stepThreePage(test2);
   }
-  */
+  /*
   displayPageHTML('js-landing-page');
 
   let dropdown = new Dropdown('js-college-dropdown');
@@ -177,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
     DB = filterDatabaseToCollege(DB, 'DeAnza');
     stepOnePage();
   }
+    */
 });
 
 
@@ -306,6 +306,8 @@ function calculate(result) {
 
 function stepThreePage(result) {
   displayPageHTML('js-step-three-page');
+  result['coursesAndOverlaps'].sort((a, b) => b.requiredByCount - a.requiredByCount);
+  console.log(result);
 
   const grid = document.getElementById('js-result-content');
   result['coursesAndOverlaps'].forEach(courseOverlap => {
@@ -314,6 +316,7 @@ function stepThreePage(result) {
     grid.append(rowDiv);
     
     const courseDiv = document.createElement('div');
+    courseDiv.classList.add('course-result');
     courseDiv.innerText = courseOverlap['course'];
     rowDiv.append(courseDiv);
 
@@ -321,6 +324,7 @@ function stepThreePage(result) {
     overlapDiv.classList.add('flex');
     for(let i=0; i<courseOverlap['requiredByCount']; i++) {
       const majorDiv = document.createElement('div');
+      majorDiv.classList.add('major-result');
       majorDiv.innerText = courseOverlap['majors'][i];
       overlapDiv.append(majorDiv);
     }

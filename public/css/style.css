@@ -599,12 +599,21 @@ video {
   z-index: 50;
 }
 
+.mx-\[15px\] {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
 .mb-5 {
   margin-bottom: 1.25rem;
 }
 
 .mb-\[80px\] {
   margin-bottom: 80px;
+}
+
+.ml-\[25px\] {
+  margin-left: 25px;
 }
 
 .ml-\[28px\] {
@@ -637,6 +646,10 @@ video {
 
 .mt-\[50px\] {
   margin-top: 50px;
+}
+
+.ml-\[15px\] {
+  margin-left: 15px;
 }
 
 .flex {
@@ -709,8 +722,8 @@ video {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.auto-rows-\[50px\] {
-  grid-auto-rows: 50px;
+.auto-rows-\[70px\] {
+  grid-auto-rows: 70px;
 }
 
 .flex-col {
@@ -1121,11 +1134,26 @@ body {
 
 .grid-elem {
   display: grid;
+  height: 80px;
   width: 900px;
-  grid-template-columns: 150px 727px;
-  border-width: 1px;
+  grid-template-columns: 165px 735px;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-top-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
+}
+
+.course-result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.major-result {
+  max-width: 275px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .college-title {
