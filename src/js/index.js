@@ -77,7 +77,7 @@ class AddedList {
     this.title.textContent = text;
   }
 
-  toggle(id, text) {
+  toggle(id, text, dropdown) {
     let targetBtn = this.content.querySelector(`#${id}`);
     if(targetBtn) {
       targetBtn.remove();
@@ -86,7 +86,24 @@ class AddedList {
       let div = document.createElement('div');
       div.classList.add('added-elem');
       div.id = id;
-      div.innerText = convertToRealName(text);
+
+      let textDiv = document.createElement('div');
+      textDiv.id = 'txt';
+      textDiv.innerText = convertToRealName(text);
+      textDiv.classList.add('text-gray-500');
+
+      let removeBtn = document.createElement('div');
+      removeBtn.innerText = 'X';
+      removeBtn.classList.add('text-red-500');
+
+      removeBtn.addEventListener('click', () => {
+        this.toggle(id, 'text', dropdown);
+        if(dropdown.content.querySelector(`#${id}`)) {
+          dropdown.content.querySelector(`#${id}`).classList.toggle('btn-toggled');
+        }
+      });
+
+      div.append(textDiv, removeBtn);
       this.content.append(div);
     }
 
@@ -192,11 +209,11 @@ function stepOnePage() {
   function btnFunc(btn) {
     btn.classList.toggle('btn-toggled');
     const index = btn.id.lastIndexOf('-');
-    addedList.toggle(btn.id, btn.id.slice(0, index));
+    addedList.toggle(btn.id, btn.id.slice(0, index), dropdown);
   }
 
   function confirmBtnFunc() {
-    let btns = addedList.content.querySelectorAll('div');
+    let btns = addedList.content.querySelectorAll('.added-elem');
     let ids = [];
     btns.forEach(btn => {
       const index = btn.id.lastIndexOf('-');
@@ -256,16 +273,16 @@ function stepTwoPage(ids) {
 
   function btnFunc(btn) {
     btn.classList.toggle('btn-toggled');
-    addedList.toggle(btn.id, `${dropdown.searchbar.innerText}: ${btn.innerText}`);
+    addedList.toggle(btn.id, `${dropdown.searchbar.innerText}: ${btn.innerText}`, dropdown);
   }
 
   function confirmBtnFunc() {
     let result = [];
-    const content = addedList.content.querySelectorAll('div');
+    const content = addedList.content.querySelectorAll('.added-elem');
     content.forEach(div => {
       const uniAndMajor = {
         uni: div.id.split('-')[0],
-        major: div.innerText.split(/:(.+)/)[1].slice(1)
+        major: div.querySelector('#txt').innerText.split(/:(.+)/)[1].slice(1)
       };
       result.push(uniAndMajor);
     });

@@ -67,7 +67,7 @@ body {
 }
 
 .added-elem {
-  @apply ml-[10px] text-lg text-gray-500;
+  @apply ml-[10px] text-lg grid grid-cols-[240px_25px];
 }
 
 .grid-elem {

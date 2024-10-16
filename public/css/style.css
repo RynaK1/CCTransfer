@@ -1122,10 +1122,10 @@ body {
 
 .added-elem {
   margin-left: 10px;
+  display: grid;
+  grid-template-columns: 240px 25px;
   font-size: 1.125rem;
   line-height: 1.75rem;
-  --tw-text-opacity: 1;
-  color: rgb(107 114 128 / var(--tw-text-opacity));
 }
 
 .grid-elem {
