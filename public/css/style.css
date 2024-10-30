@@ -1062,10 +1062,12 @@ body {
 .added-list {
   position: absolute;
   top: 19vh;
-  left: 25vh;
+  left: 40vh;
   display: flex;
   height: 0px;
   width: 275px;
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   flex-direction: column;
   overflow: hidden;
   border-radius: 5px;
@@ -1082,10 +1084,8 @@ body {
 .added-list .content {
   height: 40px;
   overflow-y: auto;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity));
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .added-list .confirm-btn {
@@ -1102,28 +1102,27 @@ body {
 
 .added-list .confirm-btn:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(221 148 79 / var(--tw-bg-opacity));
+  background-color: rgb(248 171 99 / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity));
+  color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 
 .added-list .title {
-  border-bottom-width: 1px;
-  --tw-border-opacity: 1;
-  border-color: rgb(75 85 99 / var(--tw-border-opacity));
+  margin-left: 10px;
   padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: center;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+  font-size: 20px;
+  font-weight: 500;
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity));
 }
 
 .added-elem {
-  margin-left: 10px;
   display: grid;
-  grid-template-columns: 240px 25px;
+  grid-template-columns: 10px 1fr 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   font-size: 1.125rem;
   line-height: 1.75rem;
 }
@@ -1138,6 +1137,20 @@ body {
   border-top-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
+}
+
+.remove-btn {
+  height: 25px;
+  width: 25px;
+  border-radius: 9999px;
+  padding-left: 5px;
+  padding-right: 5px;
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+
+.remove-btn:hover {
+  background-color: rgba(231,99,99,0.5);
 }
 
 .course-result {

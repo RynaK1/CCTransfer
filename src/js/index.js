@@ -87,14 +87,24 @@ class AddedList {
       div.classList.add('added-elem');
       div.id = id;
 
+      let bulletPointDiv = document.createElement('div');
+      bulletPointDiv.style.width = '10px';
+      bulletPointDiv.innerText = '•';
+
       let textDiv = document.createElement('div');
       textDiv.id = 'txt';
+      textDiv.style.color = 'rgb(75,85,99)'
       textDiv.innerText = convertToRealName(text);
-      textDiv.classList.add('text-gray-500');
 
-      let removeBtn = document.createElement('div');
+      let removeBtnContainer = document.createElement('div');
+      removeBtnContainer.style.display = 'flex';
+      removeBtnContainer.style.justifyContent = 'center';
+      removeBtnContainer.style.alignItems = 'center';
+
+      let removeBtn = document.createElement('button');
+      removeBtn.classList.add('remove-btn');
       removeBtn.innerText = 'X';
-      removeBtn.classList.add('text-red-500');
+      removeBtnContainer.append(removeBtn);
 
       removeBtn.addEventListener('click', () => {
         this.toggle(id, 'text', dropdown);
@@ -103,7 +113,8 @@ class AddedList {
         }
       });
 
-      div.append(textDiv, removeBtn);
+
+      div.append(bulletPointDiv, textDiv, removeBtnContainer);
       this.content.append(div);
     }
 
@@ -128,6 +139,11 @@ class AddedList {
       arr.push(node.id.replace(/^div#/, ''));
     })
     return arr;
+  }
+
+  setWidth(width) {
+    this.addedList.style.width = width;
+    this.content.style.width = width;
   }
 }
 
@@ -233,6 +249,7 @@ function stepTwoPage(ids) {
 
   let addedList = new AddedList('js-added-major-list');
   addedList.changeTitle('Added Majors:');
+  addedList.setWidth('350px');
   let idsIndex = 0;
   
   loadDropdownHTML (ids[0]);

@@ -51,27 +51,31 @@ body {
 }
 
 .added-list {
-  @apply flex flex-col absolute top-[19vh] left-[25vh] bg-white rounded-[5px] w-[275px] shadow-lg transition-[height] overflow-hidden duration-1000 h-0
+  @apply flex flex-col absolute top-[19vh] left-[40vh] -translate-x-1/2 bg-white rounded-[5px] w-[275px] shadow-lg transition-[height] overflow-hidden duration-1000 h-0
 }
 
 .added-list .content {
-  @apply h-[40px] text-gray-800 py-[5px] overflow-y-auto
+  @apply h-[40px] py-[10px] overflow-y-auto
 }
 
 .added-list .confirm-btn {
-  @apply text-gray-600 mt-auto text-lg bg-orange-300 py-[10px] hover:bg-[rgb(221,148,79)] hover:text-gray-800
+  @apply text-gray-600 mt-auto text-lg bg-orange-300 py-[10px] hover:bg-[rgb(248,171,99)] hover:text-gray-700
 }
 
 .added-list .title {
-  @apply text-gray-600 text-center text-lg py-[10px] border-b border-gray-600
+  @apply ml-[10px] text-gray-600 text-[20px] font-[500] pt-[10px]
 }
 
 .added-elem {
-  @apply ml-[10px] text-lg grid grid-cols-[240px_25px];
+  @apply px-[10px] py-[5px] text-lg grid grid-cols-[10px_1fr_25px];
 }
 
 .grid-elem {
   @apply grid grid-cols-[165px_735px] border-x border-t border-gray-300 w-[900px] h-[80px]
+}
+
+.remove-btn {
+  @apply px-[5px] text-gray-600 rounded-full h-[25px] w-[25px] hover:bg-[rgba(231,99,99,0.5)]
 }
 
 .course-result {
